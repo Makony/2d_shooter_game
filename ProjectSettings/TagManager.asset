@@ -14,6 +14,8 @@ TagManager:
   - 
   - Water
   - UI
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -35,11 +37,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Shooting through
+  - Bullet (not friendly)
+  - Bullet (friendly)
   m_SortingLayers:
   - name: Default
     uniqueID: 0

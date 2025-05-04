@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class ObjectStats : MonoBehaviour
 {
-    public float Health = 100f; //Minimum 0 
+    public float Health = 100f; 
+    public float Ammo = 100f;
+    //Minimum 0 
     public float Armour = 1f; //Minimum 1. It can be as high as you much but don't forget (real dmg = dmg/Armour)
     public float HealthGenerator = 0f; //I guess it can be negative if you kill objects that you shouldn't destroy (?). Like hostages (?)
 
@@ -20,4 +22,5 @@ public class ObjectStats : MonoBehaviour
     void Update()
     {
     }
+
 }

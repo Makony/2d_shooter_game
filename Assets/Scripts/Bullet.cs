@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 10f;
+    public float bulletSpeed = 5f;
     public float lifetime = 2f;
 
     
@@ -53,5 +53,11 @@ public class Bullet : MonoBehaviour
         }
         //Bullet gets destroyed anyway no matter if stats is null or not. This is why I deleted the "else" part
         Destroy(gameObject);
+    }
+
+    //04.05 by M: function so we can increase the speed of the bullet as a reward
+    public void IncreaseShooting(float value)
+    {
+        bulletSpeed += value;
     }
 }

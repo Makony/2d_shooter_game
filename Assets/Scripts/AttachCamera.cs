@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class AttachCamera : MonoBehaviour
 {
+    /*04.05,A: removed "offset" because we want the camera to follow the player anyway. So an offset isn't really needed
+     * 
+     * 
+     */
+
+
     public Transform player; 
     public float smoothSpeed = 5f; //Higher values means faster rotation
-    private Vector2 offset;
+    //private Vector2 offset;
 
 
     //30.04 by A.: to zoom in/out while playing
@@ -18,8 +24,8 @@ public class AttachCamera : MonoBehaviour
     {
         cam = Camera.main;
         cam.orthographicSize = 10f;    //03.05, to set the camzoom to this value
-
-        offset = (Vector2)(transform.position - player.position);
+        
+        //offset = (Vector2)(transform.position - player.position);
     }
 
     // Update is called once per frame
@@ -31,8 +37,8 @@ public class AttachCamera : MonoBehaviour
         cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
 
 
-
-        Vector3 newPosition = player.position + (Vector3)offset;
+        //04.05,A: removed the offset
+        Vector3 newPosition = player.position; //+ (Vector3)offset;
         newPosition.z = transform.position.z;
         transform.position = Vector3.Lerp(transform.position, newPosition, smoothSpeed * Time.deltaTime);
     }

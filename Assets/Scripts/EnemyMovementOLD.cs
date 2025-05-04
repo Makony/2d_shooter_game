@@ -31,8 +31,6 @@ public class EnemyMovementOLD : MonoBehaviour
     private Boolean AvoidanceNeeded = false;
     private Vector2 FreePosition;
 
-    private Boolean test = true;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

@@ -7,7 +7,11 @@ public class Enemy : MonoBehaviour
     //Note: not complete. Just added this from the NavMesh2D video that I sent you so I could test out how all of this works.
     //Gonna add usable behaviours and etc. from the now obsolet "EnemyMovement" script. (Rotation and etc.)
 
-    //03.05, A: added assign "target" under Start()
+    /*03.05, A: added auto assign "target" under Start()
+     * 
+     * 
+     * 
+     */
 
 
 
@@ -19,10 +23,10 @@ public class Enemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [SerializeField] 
-    private Transform target;
+    Transform target;
 
 
-    private NavMeshAgent agent;
+    NavMeshAgent agent;
 
     void Start()
     {
@@ -44,4 +48,11 @@ public class Enemy : MonoBehaviour
     {
         agent.SetDestination(target.position);
     }
+
+
+  /*  private void OnDestroy()
+    {
+        
+    }
+  */
 }

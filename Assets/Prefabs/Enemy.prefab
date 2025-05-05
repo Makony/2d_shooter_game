@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 7466545013079297312}
   - component: {fileID: 2112037190807594260}
   - component: {fileID: 5352490450443790329}
+  - component: {fileID: -9087342552925422637}
   - component: {fileID: 8319806146267566220}
   - component: {fileID: 1733407611296442296}
   - component: {fileID: 934238884359417911}
@@ -140,7 +141,31 @@ MonoBehaviour:
   Ammo: 100
   Armour: 1
   HealthGenerator: 1
-  enemy: 1
+--- !u!114 &-9087342552925422637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190449780886631021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 992b43543d3850b43a798900e6396b29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 3261771042553314943, guid: e0b81a45ef4aac64099e50a65cb39bef, type: 3}
+  Gun: {fileID: 0}
+  BulletManager: {fileID: 3567486615166057697, guid: f6182059b41c4a541b29013739c8e4f5, type: 3}
+  isContinuesFire: 0
+  bulletCooldown: 0.2
+  BulletSize: 1.4
+  BulletSpeed: 10
+  BulletPerShot: 1
+  MagazineCount: 7
+  BulletsPerMag: 30
+  AccuracyErrorAngle: 10
+  ReloadTime: 1
+  isShootingAllowed: 0
 --- !u!114 &8319806146267566220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  Gun: {fileID: 0}
   waypoints: []
   StoppingDuration: 1
   target: {fileID: 0}
@@ -164,7 +188,6 @@ MonoBehaviour:
   ViewAngle: 150
   StoppingDistance: 0
   isStationary: 0
-  isPlayerFound: 0
 --- !u!195 &1733407611296442296
 NavMeshAgent:
   m_ObjectHideFlags: 0

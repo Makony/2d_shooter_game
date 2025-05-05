@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -20,10 +18,15 @@ public class PlayerAttack : MonoBehaviour
     public float MagazineCount = 7;          //Magazine Count
     public float BulletsPerMag = 30;         //number of bullets in one magazine
     public float AccuracyErrorAngle = 25f;   //x Degree to left and x Degree to right of where you are aiming at. Example: 10 means 20 Degree Deviation
-    public float ReloadTime = 1f;            //05.05. A
+    public float ReloadTime = 1f;            //05.05. A: How long it takes to Reload
+    //public Boolean hasShootingModes = true;    //05.05. A: example burst fire (3 bullets per shot) for pistols for example
 
     private float lastBulletTime;
 
+    private void Start()
+    {
+        Gun = transform.Find("Gun");
+    }
 
     void Update()
     {

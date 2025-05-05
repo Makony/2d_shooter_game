@@ -1,17 +1,17 @@
 using System;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float bulletSpeed = 5f;
+    public float bulletSpeed = 5f; //NOT USING IT FROM HERE
     public float lifetime = 2f;
 
     
 
     //30.04 by A.: 
     public float BulletDamage = 10f;    //bullets have Dmg now
-    public Boolean isEnemyBullet = true;   //is it a unfriendly bullt => if yes it can be important for Health Generation and etc.
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"Hit #{collision.contactCount} on {collision.collider.name}");
+        //Debug.Log($"Hit #{collision.contactCount} on {collision.collider.name}");
         if (collision.gameObject.CompareTag("Enemy"))
         {
             //SUMMARY: Checks if ObjectStats is on the Enemy
@@ -40,23 +40,35 @@ public class Bullet : MonoBehaviour
 
             if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
             {
-                stats.Health -= BulletDamage/stats.Armour; 
-
+                stats.Health -= BulletDamage/stats.Armour;  
+                Debug.Log(stats.Health);
                 if (stats.Health <= 0)
                 {
                     //if the bullet is fired from player then heal him by the ammount of HealthGenerator
-                    if (!isEnemyBullet) {
-                        GameObject player = GameObject.FindWithTag("Player"); //find Player.
-                        ObjectStats PlayerStats = player.GetComponent<ObjectStats>();   //Get his stats
-                        PlayerStats.Health = Math.Clamp(PlayerStats.Health + stats.HealthGenerator, 0, 100);    //add HP to player but HP can only be between 0 and 100
-                    }
+                    GameObject player = GameObject.FindWithTag("Player"); //find Player.
+                    ObjectStats PlayerStats = player.GetComponent<ObjectStats>();   //Get his stats
+                    PlayerStats.Health = Math.Clamp(PlayerStats.Health + stats.HealthGenerator, 0, 100);    //add HP to player but HP can only be between 0 and 100
+
                     LevelManager.Instance?.EnemyKilled();
                     Debug.Log("Enemy killed!");
+
                     Destroy(collision.gameObject);
                 }
             }
         }
-        
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
+            {
+                stats.Health -= BulletDamage / stats.Armour;
+                Debug.Log(stats.Health);
+                if (stats.Health <= 0)
+                {
+                    Destroy(collision.gameObject);
+                }
+            }
+        }
+
         //Bullet gets destroyed anyway no matter if stats is null or not. This is why I deleted the "else" part
         Destroy(gameObject);
     }

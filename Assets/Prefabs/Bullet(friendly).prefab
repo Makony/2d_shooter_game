@@ -165,7 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce72ca59dec9264da9af2e74542833b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 5
-  lifetime: 2
+  bulletSpeed: 0
+  lifetime: 2.5
   BulletDamage: 10
-  isEnemyBullet: 0

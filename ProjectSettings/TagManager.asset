@@ -39,7 +39,7 @@ TagManager:
   - 
   - Collisions
   - Shooting through
-  - Bullet (not friendly)
+  - Bullet (enemy)
   - Bullet (friendly)
   m_SortingLayers:
   - name: Default

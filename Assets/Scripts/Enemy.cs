@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour
     private int currentWaypointIndex = 0;  // Start at the first waypoint
     private float MovingWaitTime= 0f;
     private float ShootingWaitTime;
+    private EnemyAttack enemyAttack;
 
 
     //change Transform target from SerializeField to Public so we can change it via other Gameobjects. Imagine a power that makes some enemies hostile to other enemies
@@ -76,6 +77,7 @@ public class Enemy : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
+        TryGetComponent<EnemyAttack>(out enemyAttack);
 
         //05.05, A:
         agent.stoppingDistance = StoppingDistance;
@@ -115,8 +117,11 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (isPlayerFound)
+        if (isPlayerFound) 
+        {
             ChasePlayer();
+            ShootPlayer();
+        }
 
         if (!isPlayerFound && target != null)
         {
@@ -128,7 +133,24 @@ public class Enemy : MonoBehaviour
         }
 
     }
-    
+
+    private void Rotate()
+    {
+        if (!isPlayerFound) movingDirection = agent.velocity.normalized;
+
+        if (isPlayerFound)
+        {
+            aimDirection = target.transform.position - transform.position;
+            float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg + 90f;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, angle), 10 * rotationSpeed * Time.deltaTime);
+
+        }
+        else if (!isPlayerFound && movingDirection != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(movingDirection.y, movingDirection.x) * Mathf.Rad2Deg + 90f;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, angle), 500 * Time.deltaTime);
+        }
+    }
 
     private void Patroling()
     {
@@ -215,7 +237,6 @@ public class Enemy : MonoBehaviour
             MovingWaitTime = Time.time + 1f;
             ShootingWaitTime = Time.time + 0.5f;
             isPlayerFound = true;
-            
         }
     }
 
@@ -227,33 +248,24 @@ public class Enemy : MonoBehaviour
             agent.SetDestination(target.position);
         }
 
-        if (Time.time > ShootingWaitTime && PlayerInViewAngle(aimDirection , 20f) )
-        {
-
-        }
     }
-
-    private void Rotate()
+    private void ShootPlayer()
     {
-        if (!isPlayerFound) movingDirection = agent.velocity.normalized;
-
-        if (isPlayerFound)
+        if (Time.time > ShootingWaitTime && PlayerInViewAngle(aimDirection, 20f))
         {
-            aimDirection = target.transform.position - transform.position;
-            float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg + 90f;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, angle), 10 * rotationSpeed * Time.deltaTime);
-
+            enemyAttack.isShootingAllowed = true;
         }
-        else if (!isPlayerFound && movingDirection != Vector2.zero)
+        else if (Time.time > ShootingWaitTime && !PlayerInViewAngle(aimDirection, 20f))
         {
-            float angle = Mathf.Atan2(movingDirection.y, movingDirection.x) * Mathf.Rad2Deg + 90f;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, angle), 500 * Time.deltaTime);
+            enemyAttack.isShootingAllowed = false;
         }
     }
-
 
     
 
+
+    
+    //for later
 
     /* 
 

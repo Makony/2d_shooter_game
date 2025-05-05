@@ -2,9 +2,16 @@ using UnityEngine;
 // class for managing the level, including enemy count and rewards after killing all enemies
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance { get; private set; }
     private int totalEnemies;
     private int enemiesKilled;
     [SerializeField] private GameObject rewardScreen;
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else { Destroy(gameObject); return; }
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,10 +27,14 @@ public class LevelManager : MonoBehaviour
     }
 
     public void EnemyKilled(){
+        Debug.Log("pre"+enemiesKilled);
         enemiesKilled++;
+        Debug.Log("after"+enemiesKilled);
         if (enemiesKilled >= totalEnemies){
+            Debug.Log("All enemies killed!");
             Time.timeScale = 0f; //Pause the game
             rewardScreen.SetActive(true);
+            Debug.Log("Panel active in hierarchy? " + rewardScreen.activeInHierarchy);
         }
     }
 

@@ -21,6 +21,7 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log($"Hit #{collision.contactCount} on {collision.collider.name}");
         if (collision.gameObject.CompareTag("Enemy"))
         {
             //SUMMARY: Checks if ObjectStats is on the Enemy
@@ -47,10 +48,13 @@ public class Bullet : MonoBehaviour
                         ObjectStats PlayerStats = player.GetComponent<ObjectStats>();   //Get his stats
                         PlayerStats.Health = Math.Clamp(PlayerStats.Health + stats.HealthGenerator, 0, 100);    //add HP to player but HP can only be between 0 and 100
                     }
+                    LevelManager.Instance?.EnemyKilled();
+                    Debug.Log("Enemy killed!");
                     Destroy(collision.gameObject);
                 }
             }
         }
+        
         //Bullet gets destroyed anyway no matter if stats is null or not. This is why I deleted the "else" part
         Destroy(gameObject);
     }

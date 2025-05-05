@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
+  Ammo: 100
   Armour: 1
   HealthGenerator: 1
   enemy: 1
@@ -152,7 +153,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f65c5d8738ca454408d7228c91aaecfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  Gun: {fileID: 0}
+  waypoints: []
+  StoppingDuration: 1
   target: {fileID: 0}
+  Speed: 2
+  rotationSpeed: 10
+  ViewDistance: 13
+  ViewAngle: 150
+  StoppingDistance: 0
+  isStationary: 0
+  isPlayerFound: 0
 --- !u!195 &1733407611296442296
 NavMeshAgent:
   m_ObjectHideFlags: 0

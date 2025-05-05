@@ -20,17 +20,19 @@ public class Shooting : MonoBehaviour
     public float MagazineCount = 7;          //Magazine Count
     public float BulletsPerMag = 30;         //number of bullets in one magazine
     public float AccuracyErrorAngle = 25f;   //x Degree to left and x Degree to right of where you are aiming at. Example: 10 means 20 Degree Deviation
+    public float ReloadTime = 1f;            //05.05. A
+    public Boolean isEnemyShooting = true;
 
     private float lastBulletTime;
 
 
     void Update()
     {
-        //extra for PISTOLES to only shoot once per click
-        //if (Input.GetMouseButtonDown(0))
-        //for machine Guns and etc. we use the isContinuesFire
-
         
+    }
+
+    void PlayerShoots()
+    {
         if (isContinuesFire)
         {
             if (Input.GetMouseButton(0) && Time.time > lastBulletTime + bulletCooldown)
@@ -47,8 +49,6 @@ public class Shooting : MonoBehaviour
 
         }
     }
-
-
     void Shoot()
     {
         //check if bullets and gun are assigned

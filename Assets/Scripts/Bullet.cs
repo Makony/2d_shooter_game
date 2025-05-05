@@ -34,9 +34,11 @@ public class Bullet : MonoBehaviour
             //changed it after reading the message in console
             //=> Checks if ObjectStats is on the object that we hit. If yes =>
             //basically it outputs stats if there is a component "ObjectStats" on the collision
-            collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats);
 
-            if (stats != null)
+            if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+                enemy.FoundPLAYER();
+
+            if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
             {
                 stats.Health -= BulletDamage/stats.Armour; 
 
@@ -60,6 +62,8 @@ public class Bullet : MonoBehaviour
     }
 
     //04.05 by M: function so we can increase the speed of the bullet as a reward
+    //05.05 by A: I haven't complety finished "Shooting" script yet but if we want to control Bulletspeed from here, then we have to use this bullet speed here instead of in "Shooting".
+    //This is not really the case right now. I was actually thinking to move everything bullet related to Shooting to lessen the "GetComponent" calls.
     public void IncreaseShooting(float value)
     {
         bulletSpeed += value;

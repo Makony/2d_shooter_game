@@ -9,5 +9,7 @@ public class ObjectStats : MonoBehaviour
     public float Armour = 1f; //Minimum 1. It can be as high as you much but don't forget (real dmg = dmg/Armour)
     public float HealthGenerator = 0f; //I guess it can be negative if you kill objects that you shouldn't destroy (?). Like hostages (?)
 
+    public bool isDead = false; //M: I need this to get rid of multiple collisions with the same enemy.
+    
     //public Boolean enemy = true;    //03.05, A: I had this before but I don't know why anymore. It is really not needed because Enemys got "Enemy" tag anyway.
 }

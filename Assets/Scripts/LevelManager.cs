@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         totalEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        Debug.Log("Total enemies: " + totalEnemies);
         enemiesKilled = 0;
         rewardScreen.SetActive(false);
     }
@@ -23,14 +24,17 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void EnemyKilled(){
-        Debug.Log("pre"+enemiesKilled);
+
+    public void EnemyKilled()
+    {
+
         enemiesKilled++;
-        Debug.Log("after"+enemiesKilled);
-        if (enemiesKilled >= totalEnemies){
+        Debug.Log("after" + enemiesKilled);
+        if (enemiesKilled >= totalEnemies)
+        {
             Debug.Log("All enemies killed!");
             Time.timeScale = 0f; //Pause the game
             rewardScreen.SetActive(true);
@@ -38,11 +42,13 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void ChooseReward(string reward){
+    public void ChooseReward(string reward)
+    {
         ObjectStats playerStats = FindObjectOfType<ObjectStats>();
         Bullet bullet = FindObjectOfType<Bullet>();
 
-        switch (reward){
+        switch (reward)
+        {
             case "Health":
                 playerStats.Health += 20f;
                 playerStats.Health = Mathf.Clamp(playerStats.Health, 0, 100); //Stays between 0 and 100
@@ -61,7 +67,8 @@ public class LevelManager : MonoBehaviour
         NextLevel();
     }
 
-    void NextLevel(){
+    void NextLevel()
+    {
 
     }
 }

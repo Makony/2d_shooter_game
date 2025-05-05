@@ -40,16 +40,19 @@ public class Bullet : MonoBehaviour
 
             if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
             {
+                if(stats.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions
                 stats.Health -= BulletDamage/stats.Armour;  
                 Debug.Log(stats.Health);
+
                 if (stats.Health <= 0)
                 {
+                    stats.isDead = true;
                     //if the bullet is fired from player then heal him by the ammount of HealthGenerator
                     GameObject player = GameObject.FindWithTag("Player"); //find Player.
                     ObjectStats PlayerStats = player.GetComponent<ObjectStats>();   //Get his stats
                     PlayerStats.Health = Math.Clamp(PlayerStats.Health + stats.HealthGenerator, 0, 100);    //add HP to player but HP can only be between 0 and 100
 
-                    LevelManager.Instance?.EnemyKilled();
+                    LevelManager.Instance?.EnemyKilled(); //M: call the function in LevelManager to check if all enemies are dead
                     Debug.Log("Enemy killed!");
 
                     Destroy(collision.gameObject);
@@ -64,11 +67,11 @@ public class Bullet : MonoBehaviour
                 Debug.Log(stats.Health);
                 if (stats.Health <= 0)
                 {
+                    stats.isDead = true; //M: means player is dead now
                     Destroy(collision.gameObject);
                 }
             }
-        }
-
+        } 
         //Bullet gets destroyed anyway no matter if stats is null or not. This is why I deleted the "else" part
         Destroy(gameObject);
     }

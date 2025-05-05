@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
     NavMeshAgent agent;
     
     
-    public Transform Gun;
+
     public Transform[] waypoints;         //just added it for fun. So enemies in first level/round can go from point A to B (technically to more Waypoints but I am keeping it simple)
     public float StoppingDuration = 1f;
     private int currentWaypointIndex = 0;  // Start at the first waypoint
@@ -82,6 +82,7 @@ public class Enemy : MonoBehaviour
         agent.speed = Speed;
 
         rb = GetComponent<Rigidbody2D>();
+
 
         facingDirection = Quaternion.Euler(0, 0, -90f) * transform.right.normalized;
 

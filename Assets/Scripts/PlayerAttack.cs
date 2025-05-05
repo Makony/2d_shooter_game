@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class Shooting : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform Gun;
@@ -21,17 +21,11 @@ public class Shooting : MonoBehaviour
     public float BulletsPerMag = 30;         //number of bullets in one magazine
     public float AccuracyErrorAngle = 25f;   //x Degree to left and x Degree to right of where you are aiming at. Example: 10 means 20 Degree Deviation
     public float ReloadTime = 1f;            //05.05. A
-    public Boolean isEnemyShooting = true;
 
     private float lastBulletTime;
 
 
     void Update()
-    {
-        
-    }
-
-    void PlayerShoots()
     {
         if (isContinuesFire)
         {
@@ -49,6 +43,7 @@ public class Shooting : MonoBehaviour
 
         }
     }
+
     void Shoot()
     {
         //check if bullets and gun are assigned

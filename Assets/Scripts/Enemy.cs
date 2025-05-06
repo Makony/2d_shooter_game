@@ -18,7 +18,10 @@ public class Enemy : MonoBehaviour
      */
 
 
-
+    public float Health = 100f;
+    public float Armour = 1f; //Minimum 1. It can be as high as you much but don't forget (real dmg = dmg/Armour)
+    public float HealthGenerator = 0f; //I guess it can be negative if you kill objects that you shouldn't destroy (?). Like hostages (?)
+    public bool isDead = false; //M: I need this to get rid of multiple collisions with the same enemy.
 
 
 
@@ -27,13 +30,13 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     NavMeshAgent agent;
-    
-    
+
+
 
     public Transform[] waypoints;         //just added it for fun. So enemies in first level/round can go from point A to B (technically to more Waypoints but I am keeping it simple)
     public float StoppingDuration = 1f;
     private int currentWaypointIndex = 0;  // Start at the first waypoint
-    private float MovingWaitTime= 0f;
+    private float MovingWaitTime = 0f;
     private float ShootingWaitTime;
     private EnemyAttack enemyAttack;
 
@@ -41,7 +44,7 @@ public class Enemy : MonoBehaviour
     //change Transform target from SerializeField to Public so we can change it via other Gameobjects. Imagine a power that makes some enemies hostile to other enemies
     public Transform target;
 
-    
+
 
 
     //ENEMY
@@ -117,7 +120,7 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (isPlayerFound) 
+        if (isPlayerFound)
         {
             ChasePlayer();
             ShootPlayer();
@@ -226,7 +229,8 @@ public class Enemy : MonoBehaviour
 
     public void FoundPLAYER()
     {
-        if (isFirstTime) {
+        if (isFirstTime)
+        {
             //EnemyFirstPosition = rb.position;
             //PlayerLastPosition = PlayerPos;
 
@@ -261,10 +265,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    
 
 
-    
+
+
     //for later
 
     /* 

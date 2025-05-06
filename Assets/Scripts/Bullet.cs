@@ -7,15 +7,25 @@ public class Bullet : MonoBehaviour
 {
     public float bulletSpeed = 5f; //NOT USING IT FROM HERE
     public float lifetime = 2f;
-
+    private Rigidbody2D rb;
 
 
     //30.04 by A.: 
-    public float BulletDamage = 10f;    //bullets have Dmg now
+    public float bulletDamage = 10f;    //bullets have Dmg now
 
     void Start()
     {
         Destroy(gameObject, lifetime);
+
+        TryGetComponent<Rigidbody2D>(out rb);
+    }
+
+    void FixedUpdate()
+    {
+        if (rb != null && rb.linearVelocity != (Vector2)transform.right.normalized * bulletSpeed)
+        {
+            rb.linearVelocity = transform.right.normalized * bulletSpeed;
+        }
     }
 
 
@@ -41,7 +51,7 @@ public class Bullet : MonoBehaviour
             if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
             {
                 if (stats.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions => it thinks two enemies were killed instead of one
-                stats.Health -= BulletDamage / stats.Armour;
+                stats.Health -= bulletSpeed / stats.Armour;
                 Debug.Log(stats.Health);
 
                 if (stats.Health <= 0)
@@ -63,7 +73,7 @@ public class Bullet : MonoBehaviour
         {
             if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
             {
-                stats.Health -= BulletDamage / stats.Armour;
+                stats.Health -= bulletSpeed / stats.Armour;
                 Debug.Log(stats.Health);
                 if (stats.Health <= 0)
                 {

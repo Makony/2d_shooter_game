@@ -5,12 +5,16 @@ using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 5f;
     public Transform gun;
 
     //30.04 by A: added the following public floats to have control on rotation speed and min distance that player starts rotating
+    public float speed = 5f;
     public float RotationSpeed = 10f;   //higher values means faster rotation
     public float rotationMinDistance = 0.1f;  //a value means no rotation if the distance from mouse and middle of the player is lower.
+    public float Health = 100f;
+    //Minimum 0 
+    public float Armour = 1f; //Minimum 1. It can be as high as you much but don't forget (real dmg = dmg/Armour)
+    public bool isDead = false; //M: I need this to get rid of multiple collisions with the same enemy.
 
     //30.04 by A: added the followings for movement+rotation of rigidbody rb
     private Rigidbody2D rb;

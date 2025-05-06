@@ -16,6 +16,7 @@ public class EnemyAttack : MonoBehaviour
     public float BulletSpeed = 15f;          //for rewards 
     public float BulletDamage = 10f;         //for rewards 
     public float BulletLifetime = 2.5f;      //for rewards   
+    public float Ammo = 100f;                //for rewards
     public int BulletPerShot = 1;            //for shotguns maybe? or rifles that got isContinuesFire = false and can fire 3 bullets at a time
     public float MagazineCount = 7;          //Magazine Count
     public float BulletsPerMag = 30;         //number of bullets in one magazine

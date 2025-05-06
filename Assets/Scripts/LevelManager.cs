@@ -42,8 +42,10 @@ public class LevelManager : MonoBehaviour
     // Method to handle the player's choice of reward and goes to the next level
     public void ChooseReward(string reward)
     {
-        ObjectStats playerStats = FindObjectOfType<ObjectStats>();
-        Bullet bullet = FindObjectOfType<Bullet>();
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player == null) return;
+        player.TryGetComponent<Player>(out Player playerStats);
+        player.TryGetComponent<PlayerAttack>(out PlayerAttack playerAttackStats);
 
         switch (reward)
         {
@@ -53,13 +55,13 @@ public class LevelManager : MonoBehaviour
                 Debug.Log("Player health: " + playerStats.Health);
                 break;
             case "Ammo":
-                playerStats.Ammo += 20f;
-                playerStats.Ammo = Mathf.Clamp(playerStats.Ammo, 0, 100);
-                Debug.Log("Player ammo: " + playerStats.Ammo);
+                playerAttackStats.Ammo += 20f;
+                playerAttackStats.Ammo = Mathf.Clamp(playerAttackStats.Ammo, 0, 100);
+                Debug.Log("Player ammo: " + playerAttackStats.Ammo);
                 break;
             case "Faster Shooting":
-                bullet.IncreaseShooting(20f);
-                Debug.Log("Player shooting speed: " + bullet.bulletSpeed);
+                playerAttackStats.BulletSpeed += 20f;
+                Debug.Log("Player shooting speed: " + playerAttackStats.BulletSpeed);
                 break;
         }
 

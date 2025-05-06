@@ -46,21 +46,19 @@ public class Bullet : MonoBehaviour
             //basically it outputs stats if there is a component "ObjectStats" on the collision
 
             if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
-                enemy.FoundPLAYER();
-
-            if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
             {
-                if (stats.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions => it thinks two enemies were killed instead of one
-                stats.Health -= bulletSpeed / stats.Armour;
-                Debug.Log(stats.Health);
+                enemy.FoundPLAYER();
+                if (enemy.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions => it thinks two enemies were killed instead of one
+                enemy.Health -= bulletSpeed / enemy.Armour;
+                Debug.Log(enemy.Health);
 
-                if (stats.Health <= 0)
+                if (enemy.Health <= 0)
                 {
-                    stats.isDead = true;
+                    enemy.isDead = true;
                     //if the bullet is fired from player then heal him by the ammount of HealthGenerator
-                    GameObject player = GameObject.FindWithTag("Player"); //find Player.
-                    ObjectStats PlayerStats = player.GetComponent<ObjectStats>();   //Get his stats
-                    PlayerStats.Health = Math.Clamp(PlayerStats.Health + stats.HealthGenerator, 0, 100);    //add HP to player but HP can only be between 0 and 100
+                    Player player = GameObject.FindWithTag("Player").GetComponent<Player>(); //find Player.
+
+                    player.Health = Math.Clamp(player.Health + enemy.HealthGenerator, 0, 100);    //add HP to player but HP can only be between 0 and 100
 
                     LevelManager.Instance?.EnemyKilled(); //M: call the function in LevelManager to check if all enemies are dead
                     Debug.Log("Enemy killed!");
@@ -71,13 +69,13 @@ public class Bullet : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
+            if (collision.gameObject.TryGetComponent<Player>(out Player player))
             {
-                stats.Health -= bulletSpeed / stats.Armour;
-                Debug.Log(stats.Health);
-                if (stats.Health <= 0)
+                player.Health -= bulletSpeed / player.Armour;
+                Debug.Log(player.Health);
+                if (player.Health <= 0)
                 {
-                    stats.isDead = true; //M: means player is dead now
+                    player.isDead = true; //M: means player is dead now
                     LevelManager.Instance?.PlayerKilled(); //M: call the function in LevelManager to check if player is dead
                     Destroy(collision.gameObject);
                 }

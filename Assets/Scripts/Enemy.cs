@@ -101,6 +101,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if (gameObject == null) return;
         facingDirection = Quaternion.Euler(0, 0, -90f) * transform.right.normalized;
 
         Rotate();
@@ -119,7 +120,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        if (gameObject == null) return;
         if (isPlayerFound)
         {
             ChasePlayer();

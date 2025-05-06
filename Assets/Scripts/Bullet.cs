@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     public float bulletSpeed = 5f; //NOT USING IT FROM HERE
     public float lifetime = 2f;
 
-    
+
 
     //30.04 by A.: 
     public float BulletDamage = 10f;    //bullets have Dmg now
@@ -40,8 +40,8 @@ public class Bullet : MonoBehaviour
 
             if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
             {
-                if(stats.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions
-                stats.Health -= BulletDamage/stats.Armour;  
+                if (stats.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions
+                stats.Health -= BulletDamage / stats.Armour;
                 Debug.Log(stats.Health);
 
                 if (stats.Health <= 0)
@@ -71,7 +71,7 @@ public class Bullet : MonoBehaviour
                     Destroy(collision.gameObject);
                 }
             }
-        } 
+        }
         //Bullet gets destroyed anyway no matter if stats is null or not. This is why I deleted the "else" part
         Destroy(gameObject);
     }

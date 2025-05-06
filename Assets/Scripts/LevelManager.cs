@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 // class for managing the level, including enemy count and rewards after killing all enemies
 public class LevelManager : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class LevelManager : MonoBehaviour
     private int totalEnemies;
     private int enemiesKilled;
     [SerializeField] private GameObject rewardScreen;
+    [SerializeField] private GameObject gameOverScreen;
 
     void Awake()
     {
@@ -19,15 +21,10 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Total enemies: " + totalEnemies);
         enemiesKilled = 0;
         rewardScreen.SetActive(false);
+        gameOverScreen.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
+    // Method that triggers the rewardScreen when all enemies are killed
     public void EnemyKilled()
     {
 
@@ -42,6 +39,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    // Method to handle the player's choice of reward and goes to the next level
     public void ChooseReward(string reward)
     {
         ObjectStats playerStats = FindObjectOfType<ObjectStats>();
@@ -52,13 +50,16 @@ public class LevelManager : MonoBehaviour
             case "Health":
                 playerStats.Health += 20f;
                 playerStats.Health = Mathf.Clamp(playerStats.Health, 0, 100); //Stays between 0 and 100
+                Debug.Log("Player health: " + playerStats.Health);
                 break;
             case "Ammo":
                 playerStats.Ammo += 20f;
                 playerStats.Ammo = Mathf.Clamp(playerStats.Ammo, 0, 100);
+                Debug.Log("Player ammo: " + playerStats.Ammo);
                 break;
             case "Faster Shooting":
                 bullet.IncreaseShooting(20f);
+                Debug.Log("Player shooting speed: " + bullet.bulletSpeed);
                 break;
         }
 
@@ -67,6 +68,22 @@ public class LevelManager : MonoBehaviour
         NextLevel();
     }
 
+    // MEthod that calls gameOverScreen when the player is killed
+    public void PlayerKilled()
+    {
+        Time.timeScale = 0f;
+        gameOverScreen.SetActive(true);
+        Debug.Log("Game Over!");
+    }
+
+    // Method for the Play Again button !!! the logic is not done yet !!!
+    public void PlayAgain()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("SampleScene");
+    }
+
+    // Method to go the next level !!! the logic is not done yet !!!
     void NextLevel()
     {
 

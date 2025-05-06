@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour
 
             if (collision.gameObject.TryGetComponent<ObjectStats>(out ObjectStats stats))
             {
-                if (stats.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions
+                if (stats.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions => it thinks two enemies were killed instead of one
                 stats.Health -= BulletDamage / stats.Armour;
                 Debug.Log(stats.Health);
 
@@ -68,6 +68,7 @@ public class Bullet : MonoBehaviour
                 if (stats.Health <= 0)
                 {
                     stats.isDead = true; //M: means player is dead now
+                    LevelManager.Instance?.PlayerKilled(); //M: call the function in LevelManager to check if player is dead
                     Destroy(collision.gameObject);
                 }
             }

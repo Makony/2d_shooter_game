@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -7,57 +9,39 @@ using UnityEngine.UIElements;
 public class Enemy : MonoBehaviour
 {
 
-    //Note: not complete. Just added this from the NavMesh2D video that I sent you so I could test out how all of this works.
-    //Gonna add usable behaviours and etc. from the now obsolet "EnemyMovement" script. (Rotation and etc.)
-
-    /*03.05, A: added auto assign "target" under Start()
-     */
-
-    /*05.05, A: added many stuff
-     * 
-     */
 
 
+    //For Enemy Stas
+    public float Speed = 5f;
     public float Health = 100f;
     public float Armour = 1f; //Minimum 1. It can be as high as you much but don't forget (real dmg = dmg/Armour)
-    public float HealthGenerator = 0f; //I guess it can be negative if you kill objects that you shouldn't destroy (?). Like hostages (?)
+    public float HealthGenerator = 1f; //I guess it can be negative if you kill objects that you shouldn't destroy (?). Like hostages (?)
+    public float rotationSpeed = 10f;
+    public float ViewDistance = 13f;
+    public float ViewAngle = 150f;
+    public float StoppingDistance = 0f;
+    public Boolean isStationary = false;    //doesn't roam around BEFORE the player is found OR doesn't move at all (like automatic robatic stationary guns)
     public bool isDead = false; //M: I need this to get rid of multiple collisions with the same enemy.
+    //public float Scale = 2f; //05.05 NOT USING IT CURRENTLY. However with this we could make a big boss. Not really interessting for our current map
+
+    //For Death Icon
+    public Sprite deathSprite; // assign a cross/grave sprite in the inspector
+    private SpriteRenderer spriteRenderer;
 
 
-
-
-
-
+    //For the agent and waypoints/spawnpoints ...
     [SerializeField]
     NavMeshAgent agent;
-
-
-
     public Transform[] waypoints;         //just added it for fun. So enemies in first level/round can go from point A to B (technically to more Waypoints but I am keeping it simple)
     public float StoppingDuration = 1f;
     private int currentWaypointIndex = 0;  // Start at the first waypoint
     private float MovingWaitTime = 0f;
     private float ShootingWaitTime;
     private EnemyAttack enemyAttack;
+    
 
-
-    //change Transform target from SerializeField to Public so we can change it via other Gameobjects. Imagine a power that makes some enemies hostile to other enemies
+    //movement, aim direction, checkingforplayers and etc.
     public Transform target;
-
-
-
-
-    //ENEMY
-    //05.05, some needed stats
-    public float Speed = 2f;
-    public float rotationSpeed = 10f;
-    public float ViewDistance = 13f;
-    public float ViewAngle = 150f;
-    public float StoppingDistance = 0f;
-    public Boolean isStationary = false;    //doesn't roam around BEFORE the player is found OR doesn't move at all (like automatic robatic stationary guns)
-    //public float Scale = 2f; //05.05 NOT USING IT CURRENTLY. However with this we could make a big boss. Not really interessting for our current map
-
-    //05.05 by A: added the followings for movement+rotation of rigidbody rb
     private Rigidbody2D rb;
     private Vector2 facingDirection;                //which direction he is facing
     private Vector2 aimDirection;                   //which direction he is aiming at
@@ -67,24 +51,18 @@ public class Enemy : MonoBehaviour
     private float lastCheckedForPlayer;
 
 
-    //05.05 by A: not really needed because it is not a stealh game. still got the codes intact if we need it for main proejct.
-    //private Vector2 EnemyFirstPosition;
-    //private Vector2 PlayerLastPosition;
-
-
-
-
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
         TryGetComponent<EnemyAttack>(out enemyAttack);
 
-        //05.05, A:
         agent.stoppingDistance = StoppingDistance;
-        agent.speed = Speed;
+        agent.speed = 3.5f;
 
         rb = GetComponent<Rigidbody2D>();
 
@@ -106,7 +84,7 @@ public class Enemy : MonoBehaviour
 
         Rotate();
 
-        //Check if the player has spawned every 3s (?)
+        //Check if the player has spawned every 3s
         if (Time.time > lastCheckedForPlayer + 3f && target == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -129,9 +107,14 @@ public class Enemy : MonoBehaviour
 
         if (!isPlayerFound && target != null)
         {
+            //if there are two waypoints or more. Go through all of them and patrol
             if (!isStationary && waypoints.Length >= 2)
             {
                 Patroling();
+            }
+            if (waypoints.Length == 1)  //added this for spawned enemies so they go to one particular point on a map
+            {
+
             }
             PlayerExistence();
         }
@@ -236,9 +219,9 @@ public class Enemy : MonoBehaviour
             //PlayerLastPosition = PlayerPos;
 
             isFirstTime = false;
-            agent.speed = 5f;     //probably need to change this
+            agent.speed = Speed;     //probably need to change this
             agent.isStopped = false;
-            agent.stoppingDistance = 4;
+            agent.stoppingDistance = 5;
             MovingWaitTime = Time.time + 1f;
             ShootingWaitTime = Time.time + 0.5f;
             isPlayerFound = true;
@@ -256,19 +239,63 @@ public class Enemy : MonoBehaviour
     }
     private void ShootPlayer()
     {
-        if (Time.time > ShootingWaitTime && PlayerInViewAngle(aimDirection, 20f))
+        if (Time.time > ShootingWaitTime && PlayerInViewAngle(aimDirection, 20f) && NoObstacleToPlayer( aimDirection))
         {
             enemyAttack.isShootingAllowed = true;
         }
-        else if (Time.time > ShootingWaitTime && !PlayerInViewAngle(aimDirection, 20f))
+        else if ( !PlayerInViewAngle(aimDirection, 20f) || !NoObstacleToPlayer( aimDirection))
         {
             enemyAttack.isShootingAllowed = false;
         }
     }
 
 
+    private static readonly HashSet<string> checkTags = new() { "Player", "Bullet" };
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isFirstTime && checkTags.Contains(collision.gameObject.tag))
+        {
+            FoundPLAYER();
+        }
+    }
 
+    //in case it dies. Show a gravestone and deactivate eveything
+    public void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (spriteRenderer != null && deathSprite != null)
+        {
+            spriteRenderer.sprite = deathSprite;
+            spriteRenderer.sortingLayerName = "Default"; // Ensure it's in the default layer
+            spriteRenderer.sortingOrder = -1; // render the gravestone behind the player
+        }
+
+        //rotate the death picture and make it bigger
+        transform.right = Vector3.right;
+        transform.localScale = new Vector3(2, 2, 2);
+
+        // Stop the enemy
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.enabled = false;
+        }
+
+        // Lock Rigidbody
+        if (rb != null) rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        // disable collider
+        if (TryGetComponent<Collider2D>(out Collider2D col)) col.enabled = false;
+        // disable enemyAttack script
+        if (enemyAttack != null) enemyAttack.enabled = false;
+        // disable this script
+        enabled = false;
+
+        // destroy the enemy in X seconds
+        Destroy(gameObject, 2f);
+    }
 
     //for later
 

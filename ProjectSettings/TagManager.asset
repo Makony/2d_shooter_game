@@ -7,12 +7,14 @@ TagManager:
   - Square
   - Enemy
   - Collisions
+  - Bullet
   - BulletFriendly
+  - Trap
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Dead
   - Water
   - UI
   - Player
@@ -36,7 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Trap
   - Collisions
   - Shooting through
   - Bullet (enemy)

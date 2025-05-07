@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class AttachCamera : MonoBehaviour
 {
-    /*04.05,A: removed "offset" because we want the camera to follow the player anyway. So an offset isn't really needed
-     * 
-     * 
+    /*A: removed "offset" because we want the camera to follow the player anyway. So an offset isn't really needed
+     * However it can be used later so I didn't remove it completly
      */
 
 
@@ -13,33 +12,31 @@ public class AttachCamera : MonoBehaviour
     //private Vector2 offset;
 
 
-    //30.04 by A.: to zoom in/out while playing
+    //variables for zoom feature
     private Camera cam;
     public float zoomSpeed = 5f;
     public float minZoom = 3f;
-    public float maxZoom = 15f;
+    public float maxZoom = 20f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cam = Camera.main;
-        cam.orthographicSize = 10f;    //03.05, to set the camzoom to this value
+        cam.orthographicSize = 13f;    //03.05, to set the camzoom to this value
         
         //offset = (Vector2)(transform.position - player.position);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //30.04 by A.: use scroll to zoom out /in
+        //A.: use scroll to zoom out /in
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         cam.orthographicSize -= scroll * zoomSpeed;
         cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
 
-
-        //04.05,A: removed the offset
-        Vector3 newPosition = player.position; //+ (Vector3)offset;
-        newPosition.z = transform.position.z;
-        transform.position = Vector3.Lerp(transform.position, newPosition, smoothSpeed * Time.deltaTime);
+        if (player != null) {
+            Vector3 newPosition = player.position; //+ (Vector3)offset; if we use offset later. Just remove //
+            newPosition.z = transform.position.z;
+            transform.position = Vector3.Lerp(transform.position, newPosition, smoothSpeed * Time.deltaTime);
+        }
     }
 }

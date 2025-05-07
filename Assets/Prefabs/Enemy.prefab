@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7466545013079297312}
   - component: {fileID: 2112037190807594260}
-  - component: {fileID: 5352490450443790329}
   - component: {fileID: -9087342552925422637}
   - component: {fileID: 8319806146267566220}
   - component: {fileID: 1733407611296442296}
@@ -125,22 +124,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5352490450443790329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5190449780886631021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 517a6ffcdd844f940ad2fb739820e65b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 100
-  Ammo: 100
-  Armour: 1
-  HealthGenerator: 1
 --- !u!114 &-9087342552925422637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,16 +138,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3261771042553314943, guid: e0b81a45ef4aac64099e50a65cb39bef, type: 3}
   Gun: {fileID: 0}
-  BulletManager: {fileID: 3567486615166057697, guid: f6182059b41c4a541b29013739c8e4f5, type: 3}
+  BulletManager: {fileID: 0}
   isContinuesFire: 0
-  bulletCooldown: 0.2
-  BulletSize: 1.4
-  BulletSpeed: 10
+  bulletCooldown: 0.4
+  BulletSize: 2
+  BulletSpeed: 7.5
+  BulletDamage: 2.5
+  BulletLifetime: 2.5
+  Ammo: 10
   BulletPerShot: 1
-  MagazineCount: 7
-  BulletsPerMag: 30
+  MaxAmmo: 10
+  RemainingAmmo: 0
   AccuracyErrorAngle: 10
   ReloadTime: 1
+  isReloading: 0
   isShootingAllowed: 0
 --- !u!114 &8319806146267566220
 MonoBehaviour:
@@ -178,16 +165,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f65c5d8738ca454408d7228c91aaecfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  waypoints: []
-  StoppingDuration: 1
-  target: {fileID: 0}
-  Speed: 2
+  Speed: 5
+  Health: 100
+  Armour: 1
+  HealthGenerator: 1
   rotationSpeed: 10
   ViewDistance: 13
   ViewAngle: 150
   StoppingDistance: 0
   isStationary: 0
+  isDead: 0
+  deathSprite: {fileID: 1297667481294870457, guid: 9f17ce60f082cb540bc2b490633946ef, type: 3}
+  agent: {fileID: 0}
+  waypoints: []
+  StoppingDuration: 1
+  target: {fileID: 0}
 --- !u!195 &1733407611296442296
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -197,7 +189,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5190449780886631021}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.555
+  m_Radius: 0.8
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50

@@ -7,57 +7,54 @@ public class Player : MonoBehaviour
 {
     public Transform gun;
 
-    //30.04 by A: added the following public floats to have control on rotation speed and min distance that player starts rotating
+    //Player Stats like HP, Speed and etc.
     public float speed = 5f;
     public float RotationSpeed = 10f;   //higher values means faster rotation
     public float rotationMinDistance = 0.1f;  //a value means no rotation if the distance from mouse and middle of the player is lower.
     public float Health = 100f;
-    //Minimum 0 
+    public float Lifes = 1f;
+    public float MaxHP = 100f;
     public float Armour = 1f; //Minimum 1. It can be as high as you much but don't forget (real dmg = dmg/Armour)
     public bool isDead = false; //M: I need this to get rid of multiple collisions with the same enemy.
 
-    //30.04 by A: added the followings for movement+rotation of rigidbody rb
+    //For movement+rotation of rigidbody rb
     private Rigidbody2D rb;
     private Vector2 movement;
     private Vector2 aimDirection;
     private Vector2 mousePosition;
 
+    //Icon for Death
+    public Sprite deathSprite; // assign a cross/grave sprite in the inspector
+    private SpriteRenderer spriteRenderer;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //Stuff for Traps layer
+    private readonly float trapDmg =0.10f; //10%
+    private bool isInTrap = false;
+    private readonly float trapDmgTimer = 1f;
+    private float lastDamageTime;
+
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();   //using rigidbody to get a non buggy collision 
     }
-
-    // Update is called once per frame
    
     void Update()
     {
+        if(isInTrap && Time.time >= lastDamageTime + trapDmgTimer) //if inside the trap do dmg every second
+        {
+            GetTrapDamage();
+            lastDamageTime = Time.time; // Reset the timer
+        }
 
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
-
-        //30.04 by Arshia: changed it so it is normalized. removed "Vector2" from beginning because it is already inizialized above
         movement = new Vector2(moveHorizontal, moveVertical).normalized;
-
-        //30.04 by Arshia: removed transform because it was causing teleportations with walls and etc. now I am using Rigidbody (rb). Look under FixedUpdate()
-        // transform.Translate(movement * speed * Time.deltaTime, Space.World);
-
 
         //getting mousePosition
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        //30.04 by Arshia: not needed because I am using rigidbody for moving now. so this got removed
-        //if (movement != Vector2.zero)
-        //{
-        //    float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
-        //    transform.rotation = Quaternion.Euler(0, 0, angle);
-        //}
-
     }
 
-
-    //30.04 By Arshia: added FixedUpdate to fix some collision/teleporting problems. rb upadtes at a fixed speed (50hz) so it needs to be under "fixedupdate"
     void FixedUpdate()
     {
         //movement:
@@ -81,5 +78,70 @@ public class Player : MonoBehaviour
         //threshhold so under 0.1f (default) distance between mouse and player's center you don't turn
         if (distance3 > rotationMinDistance)    
             rb.MoveRotation(angle);     //rotates the rb of player to the angle we calculated
+    }
+
+   
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Trap"))
+        {
+            isInTrap = true;
+            speed /= 2;
+            GetTrapDamage();
+            lastDamageTime = Time.time;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Trap")) 
+        {
+            isInTrap = false;
+            speed *= 2;
+        }
+    }
+
+    private void GetTrapDamage()
+    {
+        Health -= MaxHP * trapDmg;
+        if (LevelManager.Instance) LevelManager.Instance.HPstat();
+        if (Health < 0) Die();
+    }
+
+
+
+
+
+    //in case it dies. Show a gravestone and deactivate eveything
+    public void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (spriteRenderer != null && deathSprite != null)
+        {
+            spriteRenderer.sprite = deathSprite;
+            spriteRenderer.sortingLayerName = "Default"; // Ensure it's in the default layer
+            spriteRenderer.sortingOrder = -1;
+        }
+
+        //rotate the death picture and make it bigger
+        transform.right = Vector3.right;
+        transform.localScale = new Vector3(2, 2, 2);
+
+        // Lock Rigidbody
+        if (rb != null) rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        // disable collider
+        if (TryGetComponent<Collider2D>(out Collider2D col)) col.enabled = false;
+
+        // disable playerAttack script
+        if (TryGetComponent<PlayerAttack>(out PlayerAttack playerAttack)) playerAttack.enabled = false;
+
+        if (LevelManager.Instance) LevelManager.Instance.PlayerKilled();
+        // disable this script
+        enabled = false;
+        
     }
 }

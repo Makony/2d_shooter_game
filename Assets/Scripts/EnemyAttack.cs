@@ -16,12 +16,13 @@ public class EnemyAttack : MonoBehaviour
     public float BulletSpeed = 15f;          //for rewards 
     public float BulletDamage = 10f;         //for rewards 
     public float BulletLifetime = 2.5f;      //for rewards   
-    public float Ammo = 100f;                //for rewards
+    public float Ammo = 10f;                //for rewards
     public int BulletPerShot = 1;            //for shotguns maybe? or rifles that got isContinuesFire = false and can fire 3 bullets at a time
-    public float MagazineCount = 7;          //Magazine Count
-    public float BulletsPerMag = 30;         //number of bullets in one magazine
+    public float MaxAmmo = 10f;                //How much bullets are left before reloading
+    public float RemainingAmmo;
     public float AccuracyErrorAngle = 10f;   //x Degree to left and x Degree to right of where you are aiming at. Example: 10 means 20 Degree Deviation
     public float ReloadTime = 1f;            //05.05. A: How long it takes to Reload
+    public Boolean isReloading = false;
     //public Boolean hasShootingModes = true;    //05.05. A: example burst fire (3 bullets per shot) for pistols for example
     public Boolean isShootingAllowed = false;
 
@@ -37,15 +38,31 @@ public class EnemyAttack : MonoBehaviour
     {
         if (isShootingAllowed)
         {
-            if (isContinuesFire)
+            if (RemainingAmmo > 0)
             {
                 Shoot();
             }
             else
             {
-                Shoot();
+                Reload();
             }
         }
+    }
+
+    void Reload()
+    {
+        if (!isReloading)
+        {
+            StartCoroutine(Reloading());
+        }
+    }
+
+    IEnumerator Reloading()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(1f); // Wait for 1 second
+        RemainingAmmo = MaxAmmo;
+        isReloading = false;
     }
 
     void Shoot()
@@ -66,6 +83,7 @@ public class EnemyAttack : MonoBehaviour
         //shoot n number of bullets depending how much BulletPershot is then wait one frame
         for (int i = 1; i <= BulletPerShot; i++)
         {
+            if (RemainingAmmo <= 0) yield break;
             //Calculate a shooting error angle, change the rotation of the bullet (it comes out of the Gun so change that) THEN make the bullet
             float fireAngleERR = UnityEngine.Random.Range(-AccuracyErrorAngle, AccuracyErrorAngle);
             Quaternion newFireDirection = Gun.rotation * Quaternion.Euler(0f, 0f, fireAngleERR);
@@ -77,7 +95,7 @@ public class EnemyAttack : MonoBehaviour
                 bulletStats.lifetime = BulletLifetime;
             }
             bullet.transform.localScale = new Vector3(BulletSize * 0.1f, BulletSize * 0.1f, 1f);    // make the bullet as big you want
-
+            RemainingAmmo--;
             lastBulletTime = Time.time;    //brought this here so it knows when last bullet got fired from the gun (not when you pressed your mouse button)
             yield return null;  //wait 1 frame
         }

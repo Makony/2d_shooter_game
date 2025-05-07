@@ -29,13 +29,13 @@ public class LevelManager : MonoBehaviour
     {
 
         enemiesKilled++;
-        Debug.Log("after" + enemiesKilled);
+        //Debug.Log("after" + enemiesKilled);
         if (enemiesKilled >= totalEnemies)
         {
             Debug.Log("All enemies killed!");
             Time.timeScale = 0f; //Pause the game
             rewardScreen.SetActive(true);
-            Debug.Log("Panel active in hierarchy? " + rewardScreen.activeInHierarchy);
+            //Debug.Log("Panel active in hierarchy? " + rewardScreen.activeInHierarchy);
         }
     }
 

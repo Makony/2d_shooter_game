@@ -30,14 +30,14 @@ public class LevelManager : MonoBehaviour
     private TextMeshProUGUI scoretext;
     private Transform ammoIcon1;
     private Transform ammoIcon2;
-   
+
 
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         else { Destroy(gameObject); return; }
-        rewardScreen.SetActive(false);  
+        rewardScreen.SetActive(false);
         gameOverScreen.SetActive(false);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -48,7 +48,7 @@ public class LevelManager : MonoBehaviour
         player.TryGetComponent<PlayerAttack>(out playerAttackStats);
 
         Transform EnemyManager = transform.Find("EnemyManager");
-        totalEnemies = EnemyManager? EnemyManager.childCount : 0;
+        totalEnemies = EnemyManager ? EnemyManager.childCount : 0;
         remainingEnemies = totalEnemies;
         //get stat screens
         statScreen.transform.Find("LifeText").TryGetComponent<TextMeshProUGUI>(out lifetext);
@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Total enemies: " + totalEnemies);
         enemiesKilled = 0;
     }
-    
+
 
     //For updating Stats and et.c
     public void UpdateAllStats()
@@ -99,7 +99,8 @@ public class LevelManager : MonoBehaviour
         {
             ammoIcon1.gameObject.SetActive(true);
             ammoIcon2.gameObject.SetActive(true);
-        } else
+        }
+        else
         {
             ammoIcon1.gameObject.SetActive(false);
             ammoIcon2.gameObject.SetActive(false);
@@ -119,13 +120,19 @@ public class LevelManager : MonoBehaviour
         remainingEnemies--;
         EnemyStat();
         //Debug.Log("after" + enemiesKilled);
-        if (remainingEnemies<=0)
+        if (remainingEnemies <= 0)
         {
             Debug.Log("All enemies killed!");
-            Time.timeScale = 0f; //Pause the game
-            rewardScreen.SetActive(true);
+            StartCoroutine(DelayRewardScreen(5f));
             //Debug.Log("Panel active in hierarchy? " + rewardScreen.activeInHierarchy);
         }
+    }
+
+    private System.Collections.IEnumerator DelayRewardScreen(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        Time.timeScale = 0f; //Pause the game
+        rewardScreen.SetActive(true);
     }
 
     // Method to handle the player's choice of reward and goes to the next level
@@ -139,7 +146,7 @@ public class LevelManager : MonoBehaviour
                 Debug.Log("Player MaxHP: " + playerStats.MaxHP);
                 break;
             case "Ammo":
-                playerAttackStats.MaxAmmo = (float) Math.Ceiling(playerAttackStats.MaxAmmo * 2.50f);
+                playerAttackStats.MaxAmmo = (float)Math.Ceiling(playerAttackStats.MaxAmmo * 2.50f);
                 Debug.Log("Player MaxAmmo: " + playerAttackStats.MaxAmmo);
                 break;
             case "Faster Shooting":
@@ -184,20 +191,20 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Game Over!");
     }
 
-    // Method for the Play Again button !!! the logic is not done yet !!!
+    // Method for the Play Again button
     public void PlayAgain()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("SampleScene");
     }
 
-    // Method to go the next level !!! the logic is not done yet !!!
+    // Method to go the next level
     void NextLevel()
     {
         float buff = 1f + 0.20f * LevelNumber;
-        totalEnemies = (float) Math.Ceiling (totalEnemies * buff);
+        totalEnemies = (float)Math.Ceiling(totalEnemies * buff);
         remainingEnemies = totalEnemies;
-        EnemyManager.Instance.MakeEnemies(totalEnemies,buff);
+        EnemyManager.Instance.MakeEnemies(totalEnemies, buff);
         playerStats.Health = playerStats.MaxHP;
         UpdateAllStats();
     }

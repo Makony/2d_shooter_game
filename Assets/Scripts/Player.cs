@@ -117,31 +117,43 @@ public class Player : MonoBehaviour
     public void Die()
     {
         if (isDead) return;
-        isDead = true;
-
-        if (spriteRenderer != null && deathSprite != null)
-        {
-            spriteRenderer.sprite = deathSprite;
-            spriteRenderer.sortingLayerName = "Default"; // Ensure it's in the default layer
-            spriteRenderer.sortingOrder = -1;
-        }
-
-        //rotate the death picture and make it bigger
-        transform.right = Vector3.right;
-        transform.localScale = new Vector3(2, 2, 2);
-
-        // Lock Rigidbody
-        if (rb != null) rb.constraints = RigidbodyConstraints2D.FreezeAll;
-
-        // disable collider
-        if (TryGetComponent<Collider2D>(out Collider2D col)) col.enabled = false;
-
-        // disable playerAttack script
-        if (TryGetComponent<PlayerAttack>(out PlayerAttack playerAttack)) playerAttack.enabled = false;
-
-        if (LevelManager.Instance) LevelManager.Instance.PlayerKilled();
-        // disable this script
-        enabled = false;
         
+        if(Lifes > 0){ //don't die if the player has some lifes left
+            Lifes--;
+            Health = MaxHP;
+            if(LevelManager.Instance){
+                LevelManager.Instance.HPstat();
+                LevelManager.Instance.LifeStat();
+            }
+        }
+        else //no lifes left => die
+        {
+            isDead = true;
+
+            if (spriteRenderer != null && deathSprite != null)
+            {
+                spriteRenderer.sprite = deathSprite;
+                spriteRenderer.sortingLayerName = "Default"; // Ensure it's in the default layer
+                spriteRenderer.sortingOrder = -1;
+            }
+
+            //rotate the death picture and make it bigger
+            transform.right = Vector3.right;
+            transform.localScale = new Vector3(2, 2, 2);
+
+            // Lock Rigidbody
+            if (rb != null) rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+            // disable collider
+            if (TryGetComponent<Collider2D>(out Collider2D col)) col.enabled = false;
+
+            // disable playerAttack script
+            if (TryGetComponent<PlayerAttack>(out PlayerAttack playerAttack)) playerAttack.enabled = false;
+
+            if (LevelManager.Instance) LevelManager.Instance.PlayerKilled();
+            // disable this script
+            enabled = false;
+        
+        }
     }
 }

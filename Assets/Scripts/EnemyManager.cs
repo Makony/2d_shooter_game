@@ -1,4 +1,4 @@
-using UnityEditor.U2D.Aseprite;
+//using UnityEditor.U2D.Aseprite;
 using System.Collections;
 using UnityEngine;
 
@@ -54,7 +54,7 @@ public class EnemyManager : MonoBehaviour
 
     public void MakeEnemies(float totalEnemies, float buff)
     {
-        StartCoroutine(MakingEnemies(totalEnemies,buff));
+        StartCoroutine(MakingEnemies(totalEnemies, buff));
     }
 
     IEnumerator MakingEnemies(float totalEnemies, float buff)

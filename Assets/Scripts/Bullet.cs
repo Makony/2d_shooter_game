@@ -75,13 +75,6 @@ public class Bullet : MonoBehaviour
                 if (player.Health <= 0)
                 {
                     player.Die();
-
-                    //LevelManager.Instance?.PlayerKilled(); //M: call the function in LevelManager to check if player is dead
-                    // I was getting the message "Unity objects should not use null propagation" so I am using if clause now
-                    if (LevelManager.Instance != null)
-                    {
-                        LevelManager.Instance.PlayerKilled();
-                    }
                 }
             }
         }

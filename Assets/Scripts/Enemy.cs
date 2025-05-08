@@ -36,7 +36,9 @@ public class Enemy : MonoBehaviour
     public float StoppingDuration = 1f;
     private int currentWaypointIndex = 0;  // Start at the first waypoint
     private float MovingWaitTime = 0f;
+    public float MovingWaitTimeMutliplicator = 1;
     private float ShootingWaitTime;
+    public float ShootingWaitTimeMultiplicator = 1;
     private EnemyAttack enemyAttack;
     
 
@@ -50,10 +52,14 @@ public class Enemy : MonoBehaviour
     private Boolean isFirstTime = true;
     private float lastCheckedForPlayer;
 
+    //for animation and stuff
+    private Animator animator;
+
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         agent.updateRotation = false;
@@ -63,6 +69,7 @@ public class Enemy : MonoBehaviour
 
         agent.stoppingDistance = StoppingDistance;
         agent.speed = 3.5f;
+        agent.isStopped = true;
 
         rb = GetComponent<Rigidbody2D>();
 
@@ -74,6 +81,7 @@ public class Enemy : MonoBehaviour
         {
             target = playerObj.transform;
         }
+
     }
 
 
@@ -93,6 +101,15 @@ public class Enemy : MonoBehaviour
                 target = playerObj.transform;
             }
             lastCheckedForPlayer = Time.time;
+        }
+
+        if (agent.isStopped)
+        {
+            animator.SetBool("isRunning", false);
+        }
+        else
+        {
+            animator.SetBool("isRunning", true);
         }
     }
 
@@ -222,8 +239,8 @@ public class Enemy : MonoBehaviour
             agent.speed = Speed;     //probably need to change this
             agent.isStopped = false;
             agent.stoppingDistance = 5;
-            MovingWaitTime = Time.time + 1f;
-            ShootingWaitTime = Time.time + 0.5f;
+            MovingWaitTime = Time.time + (1f / MovingWaitTimeMutliplicator);
+            ShootingWaitTime = Time.time + (0.5f / ShootingWaitTimeMultiplicator);
             isPlayerFound = true;
         }
     }
@@ -265,6 +282,7 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        animator.enabled = false;
 
         if (spriteRenderer != null && deathSprite != null)
         {

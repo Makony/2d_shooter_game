@@ -33,9 +33,13 @@ public class Player : MonoBehaviour
     private readonly float trapDmgTimer = 1f;
     private float lastDamageTime;
 
+    //for animation and stuff
+    private Animator animator;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();   //using rigidbody to get a non buggy collision 
     }
    
@@ -50,6 +54,17 @@ public class Player : MonoBehaviour
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
         movement = new Vector2(moveHorizontal, moveVertical).normalized;
+
+
+        //to tell animator if we are runnig or not
+        if (moveHorizontal == 0 && moveVertical ==0)
+        {
+            animator.SetBool("isRunning", false);
+        }
+        else
+        {
+            animator.SetBool("isRunning", true);
+        }
 
         //getting mousePosition
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -82,6 +97,9 @@ public class Player : MonoBehaviour
 
    
 
+
+
+    // bascially for detecting TRAPS!
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Trap"))
@@ -104,7 +122,7 @@ public class Player : MonoBehaviour
 
     private void GetTrapDamage()
     {
-        Health -= MaxHP * trapDmg;
+        Health -= Mathf.Floor (MaxHP * trapDmg);
         if (LevelManager.Instance) LevelManager.Instance.HPstat();
         if (Health < 0) Die();
     }
@@ -114,6 +132,7 @@ public class Player : MonoBehaviour
 
 
     //in case it dies. Show a gravestone and deactivate eveything
+    //before that check how many lifes are left
     public void Die()
     {
         if (isDead) return;
@@ -129,6 +148,7 @@ public class Player : MonoBehaviour
         else //no lifes left => die
         {
             isDead = true;
+            animator.enabled = false;
 
             if (spriteRenderer != null && deathSprite != null)
             {

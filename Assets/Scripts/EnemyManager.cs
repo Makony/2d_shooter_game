@@ -91,6 +91,9 @@ public class EnemyManager : MonoBehaviour
         enemyStats.HealthGenerator *= buff;
         enemyStats.rotationSpeed *= buff;
         enemyStats.ViewDistance *= buff;
+        enemyStats.ShootingWaitTimeMultiplicator *= buff;
+        enemyStats.MovingWaitTimeMutliplicator *= buff;
+        enemyStats.ViewAngle *= buff;
 
         enemyAttackStats.bulletCooldown /= buff;
         enemyAttackStats.BulletSpeed *= buff;

@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 1733407611296442296}
   - component: {fileID: 934238884359417911}
   - component: {fileID: 7022104039833455739}
+  - component: {fileID: -6814586656024292625}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -118,7 +119,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.2, y: 3.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -177,8 +178,12 @@ MonoBehaviour:
   isDead: 0
   deathSprite: {fileID: 1297667481294870457, guid: 9f17ce60f082cb540bc2b490633946ef, type: 3}
   agent: {fileID: 0}
-  waypoints: []
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
   StoppingDuration: 1
+  MovingWaitTimeMutliplicator: 1
+  ShootingWaitTimeMultiplicator: 1
   target: {fileID: 0}
 --- !u!195 &1733407611296442296
 NavMeshAgent:
@@ -189,7 +194,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5190449780886631021}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.8
+  m_Radius: 0.75
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -268,7 +273,7 @@ PolygonCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.11, y: 2.02}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 3.2, y: 3.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -304,3 +309,25 @@ PolygonCollider2D:
       - {x: -0.21499999, y: -1.01}
       - {x: -0.024999999, y: -1.01}
   m_UseDelaunayMesh: 0
+--- !u!95 &-6814586656024292625
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190449780886631021}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5716ac4387c522d419352e1c71ea8970, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

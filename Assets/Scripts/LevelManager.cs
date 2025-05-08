@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject rewardScreen;
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject statScreen;
+    [SerializeField] private GameObject pausescreen;
 
     private GameObject player;
     private Player playerStats;
@@ -66,6 +67,15 @@ public class LevelManager : MonoBehaviour
         enemiesKilled = 0;
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0f;
+            pausescreen.SetActive(true);
+        }
+    }
+
 
     //For updating Stats and et.c
     public void UpdateAllStats()
@@ -83,7 +93,7 @@ public class LevelManager : MonoBehaviour
 
     public void HPstat()
     {
-        float HP = Math.Clamp(playerStats.Health, 0, playerStats.MaxHP);
+        float HP = Mathf.Clamp(playerStats.Health, 0, playerStats.MaxHP);
         hptext.text = (HP).ToString() + " / " + (playerStats.MaxHP).ToString();
         healthBar.fillAmount = HP / playerStats.MaxHP;
     }
@@ -196,6 +206,22 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("SampleScene");
+    }
+
+    public void Resume()
+    {
+        pausescreen.SetActive(false);
+        Time.timeScale = 1f;
+    }
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
+        
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     // Method to go the next level

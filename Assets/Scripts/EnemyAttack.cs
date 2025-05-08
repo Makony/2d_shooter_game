@@ -25,19 +25,24 @@ public class EnemyAttack : MonoBehaviour
     public Boolean isReloading = false;
     //public Boolean hasShootingModes = true;    //05.05. A: example burst fire (3 bullets per shot) for pistols for example
     public Boolean isShootingAllowed = false;
-
     private float lastBulletTime;
+
+    //for animation and stuff
+    private Animator animator;
 
     void Start()
     {
         Gun = transform.Find("Gun");
         BulletManager = GameObject.Find("BulletManager").transform;
+        animator = GetComponent<Animator>();
+        RemainingAmmo = MaxAmmo;
     }
 
     void Update()
     {
         if (isShootingAllowed)
         {
+            animator.SetBool("isShooting", true);
             if (RemainingAmmo > 0)
             {
                 Shoot();
@@ -46,6 +51,9 @@ public class EnemyAttack : MonoBehaviour
             {
                 Reload();
             }
+        } else
+        {
+            animator.SetBool("isShooting", false);
         }
     }
 
@@ -59,8 +67,11 @@ public class EnemyAttack : MonoBehaviour
 
     IEnumerator Reloading()
     {
+        animator.SetBool("isShooting", false);
         isReloading = true;
+        animator.SetBool("isReloading", true);
         yield return new WaitForSeconds(1f); // Wait for 1 second
+        animator.SetBool("isReloading", false);
         RemainingAmmo = MaxAmmo;
         isReloading = false;
     }

@@ -23,8 +23,10 @@ public class PlayerAttack : MonoBehaviour
     public float ReloadTime = 0.5f;
     public Boolean isReloading = false;
     //public Boolean hasShootingModes = true;    //A: example burst fire (3 bullets per shot) for pistols for example
-
     private float lastBulletTime;
+
+    //for animation and stuff
+    private Animator animator;
 
     private void Start()
     {
@@ -32,6 +34,7 @@ public class PlayerAttack : MonoBehaviour
         RemainingAmmo = MaxAmmo;
         LevelManager.TryGetComponent<LevelManager>(out levelManager);
         AccuracyErrorAngle /= isContinuesFire ? 1 : 2;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -43,12 +46,13 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log(AccuracyErrorAngle);
             levelManager.AmmoIcon(isContinuesFire);
         }
-        if (Input.GetKeyDown(KeyCode.R)) Reload();
+        if (Input.GetKeyDown(KeyCode.R)) { Reload(); }
 
         if (isContinuesFire && RemainingAmmo > 0 && !isReloading)
         {
             if (Input.GetMouseButton(0) && Time.time > lastBulletTime + bulletCooldown)
             {
+                animator.SetBool("isShooting", true);
                 Shoot();
             }
         }
@@ -56,15 +60,27 @@ public class PlayerAttack : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && Time.time > lastBulletTime + 0.25f)
             {
+                
                 Shoot();
+                StartCoroutine(Hipfires());
             }
         }
         else if (RemainingAmmo <= 0 && !isReloading)
         {
             Reload();
         }
+
+        if (!Input.GetMouseButton(0) && !Input.GetMouseButton(0)) {
+            animator.SetBool("isShooting", false);
+        }
     }
 
+    IEnumerator Hipfires()
+    {
+        animator.SetBool("isShooting", true);
+        yield return new WaitForSeconds(0.035f);
+        animator.SetBool("isShooting", false);
+    }
     void Reload()
     {
         if (!isReloading)
@@ -75,8 +91,11 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator Reloading()
     {
+        animator.SetBool("isShooting", false);
         isReloading = true;
-        yield return new WaitForSeconds(1f); // Wait for 1 second
+        animator.SetBool("isReloading", true);
+        yield return new WaitForSeconds(ReloadTime); // Wait for "ReoloadTime" seconds
+        animator.SetBool("isReloading", false);
         RemainingAmmo = MaxAmmo;
         levelManager.AmmoStat();
         isReloading = false;
@@ -84,6 +103,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Shoot()
     {
+        Debug.Log("shooting HAS STARTED");
         //check if bullets and gun are assigned
         if (bulletPrefab != null && Gun != null)
         {

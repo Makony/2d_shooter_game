@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Armature_reload_019_0: 2236891414532492639
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

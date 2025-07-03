@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Armature_hipFire_00_0: 7892850311476505809
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -56,7 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Miniproject.sln",
+    "dotnet.defaultSolution": "2d_shooter_game.sln",
     "omnisharp.dotnetPath": "C:\\Program Files\\dotnet\\sdk",
     "omnisharp.useModernNet": true
 }

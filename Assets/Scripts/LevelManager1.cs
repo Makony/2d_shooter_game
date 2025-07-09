@@ -1,4 +1,6 @@
 using System;
+using System.Runtime.Serialization;
+using NUnit.Framework;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -32,7 +34,7 @@ public class LevelManager1 : MonoBehaviour
     private Transform ammoIcon1;
     private Transform ammoIcon2;
 
-
+    public bool IsLevelStarted = false;
 
     void Awake()
     {
@@ -42,7 +44,12 @@ public class LevelManager1 : MonoBehaviour
         gameOverScreen.SetActive(false);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
+    {
+        MapGeneratorWFC.Instance.StartWFC();
+    }
+    private void StartLevel()
     {
         player = GameObject.FindWithTag("Player");
         player.TryGetComponent<Player>(out playerStats);
@@ -65,10 +72,19 @@ public class LevelManager1 : MonoBehaviour
 
         Debug.Log("Total enemies: " + totalEnemies);
         enemiesKilled = 0;
+
+        ObjectGenerator.Instance.PlaceCircleTraps(); // Place traps on the map
     }
 
     public void Update()
     {
+        if (IsLevelStarted == false && MapGeneratorWFC.Instance.IsFinished == true)
+        {
+            IsLevelStarted = true;
+             ObjectGenerator.Instance.GenerateObjects(); // Place traps on the map
+            //StartLevel();
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Time.timeScale = 0f;

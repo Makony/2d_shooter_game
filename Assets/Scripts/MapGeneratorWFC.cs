@@ -19,6 +19,9 @@ public class MapGeneratorWFC : MonoBehaviour
     public const int TILE_HEIGHT = 20;
     public const int GRID_WIDTH = 10;
     public const int GRID_HEIGHT = 10;
+
+    public static int startX;
+    public static int startY;
     public enum TDirection
     {
         North,
@@ -464,6 +467,7 @@ public class MapGeneratorWFC : MonoBehaviour
         (int x, int y) minSlot = (-1, -1);
         int min = int.MaxValue;
 
+
         for (int x = 0; x < GRID_WIDTH; x++)
         {
             for (int y = 0; y < GRID_HEIGHT; y++)
@@ -567,8 +571,21 @@ public class MapGeneratorWFC : MonoBehaviour
             }
         }
 
-        int startX = Random.Range(1, GRID_WIDTH - 1);
-        int startY = Random.Range(1, GRID_HEIGHT - 1);
+        startX = Random.Range(1, GRID_WIDTH - 1);
+        startY = Random.Range(1, GRID_HEIGHT - 1);
+
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null) {
+            float player_startX = startX*TILE_WIDTH + TILE_WIDTH / 2f;
+            float player_startY = startY*TILE_HEIGHT + TILE_HEIGHT / 2f; 
+            Debug.Log("Player Start Position: " + player_startX + ", " + player_startY);
+            player.transform.position = new Vector3(player_startX, player_startY, 0f);
+        }
+        else {
+            Debug.LogError("Player with tag 'Player' not found!");
+        }
+
+        Debug.Log(startX + ", " + startY);
 
         Dictionary<TDirection, HashSet<TWall>> walls = grid[startX, startY].Set("StartingRoom", true);
 

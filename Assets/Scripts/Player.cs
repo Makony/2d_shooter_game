@@ -28,24 +28,23 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     //Stuff for Traps layer
-    private readonly float trapDmg =0.10f; //10%
+    private readonly float trapDmg = 0.10f; //10%
     private bool isInTrap = false;
     private readonly float trapDmgTimer = 1f;
     private float lastDamageTime;
 
     //for animation and stuff
     private Animator animator;
-
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();   //using rigidbody to get a non buggy collision 
     }
-   
+
     void Update()
     {
-        if(isInTrap && Time.time >= lastDamageTime + trapDmgTimer) //if inside the trap do dmg every second
+        if (isInTrap && Time.time >= lastDamageTime + trapDmgTimer) //if inside the trap do dmg every second
         {
             GetTrapDamage();
             lastDamageTime = Time.time; // Reset the timer
@@ -57,7 +56,7 @@ public class Player : MonoBehaviour
 
 
         //to tell animator if we are runnig or not
-        if (moveHorizontal == 0 && moveVertical ==0)
+        if (moveHorizontal == 0 && moveVertical == 0)
         {
             animator.SetBool("isRunning", false);
         }
@@ -73,7 +72,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         //movement:
-        rb.linearVelocity = new Vector2(movement.x*speed, movement.y*speed);
+        rb.linearVelocity = new Vector2(movement.x * speed, movement.y * speed);
 
         //rotation
         float distance2 = Vector2.Distance(gun.position, rb.position); //distance between the gun and player
@@ -82,20 +81,20 @@ public class Player : MonoBehaviour
 
         //GUN is pointing at the mouse cursor if (distance between the gun and player) is less than (distance between mouse and player) plus a small error (0.1f)
         //otherwise it is gonna point center of player towards the gun (taking the aimDirection from above)
-        if (distance2 < distance3-0.1f)
+        if (distance2 < distance3 - 0.1f)
         {
-            aimDirection = (mousePosition - new Vector2(gun.position.x,gun.position.y)).normalized;
+            aimDirection = (mousePosition - new Vector2(gun.position.x, gun.position.y)).normalized;
         }
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;      //to calculate the angle between mouse and gun/player
         angle = Mathf.LerpAngle(rb.rotation, angle, RotationSpeed * Time.fixedDeltaTime); //added RotationSpeed so it turns slowly/fast
 
 
         //threshhold so under 0.1f (default) distance between mouse and player's center you don't turn
-        if (distance3 > rotationMinDistance)    
+        if (distance3 > rotationMinDistance)
             rb.MoveRotation(angle);     //rotates the rb of player to the angle we calculated
     }
 
-   
+
 
 
 
@@ -113,7 +112,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Trap")) 
+        if (other.CompareTag("Trap"))
         {
             isInTrap = false;
             speed *= 2;
@@ -122,7 +121,7 @@ public class Player : MonoBehaviour
 
     private void GetTrapDamage()
     {
-        Health -= Mathf.Floor (MaxHP * trapDmg);
+        Health -= Mathf.Floor(MaxHP * trapDmg);
         if (LevelManager.Instance) LevelManager.Instance.HPstat();
         if (Health < 0) Die();
     }
@@ -136,11 +135,13 @@ public class Player : MonoBehaviour
     public void Die()
     {
         if (isDead) return;
-        
-        if(Lifes > 0){ //don't die if the player has some lifes left
+
+        if (Lifes > 0)
+        { //don't die if the player has some lifes left
             Lifes--;
             Health = MaxHP;
-            if(LevelManager.Instance){
+            if (LevelManager.Instance)
+            {
                 LevelManager.Instance.HPstat();
                 LevelManager.Instance.LifeStat();
             }
@@ -173,7 +174,7 @@ public class Player : MonoBehaviour
             if (LevelManager.Instance) LevelManager.Instance.PlayerKilled();
             // disable this script
             enabled = false;
-        
+
         }
     }
 }

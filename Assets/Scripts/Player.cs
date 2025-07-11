@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Rendering;
@@ -8,7 +7,7 @@ public class Player : MonoBehaviour
     public Transform gun;
 
     //Player Stats like HP, Speed and etc.
-    public float speed = 5f;
+    public float speed = 8f;
     public float RotationSpeed = 10f;   //higher values means faster rotation
     public float rotationMinDistance = 0.1f;  //a value means no rotation if the distance from mouse and middle of the player is lower.
     public float Health = 100f;
@@ -39,7 +38,7 @@ public class Player : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();   //using rigidbody to get a non buggy collision 
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -58,11 +57,11 @@ public class Player : MonoBehaviour
         //to tell animator if we are runnig or not
         if (moveHorizontal == 0 && moveVertical == 0)
         {
-            animator.SetBool("isRunning", false);
+            //animator.SetBool("isRunning", false);
         }
         else
         {
-            animator.SetBool("isRunning", true);
+            //animator.SetBool("isRunning", true);
         }
 
         //getting mousePosition
@@ -149,7 +148,7 @@ public class Player : MonoBehaviour
         else //no lifes left => die
         {
             isDead = true;
-            animator.enabled = false;
+            //animator.enabled = false;
 
             if (spriteRenderer != null && deathSprite != null)
             {

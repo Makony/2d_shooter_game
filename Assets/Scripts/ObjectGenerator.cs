@@ -18,12 +18,6 @@ public class ObjectGenerator : MonoBehaviour
     public int NumberOfTraps = 75;
     public int NumberOfBoxes = 75;
 
-    static int startRoomCenterX = MapGeneratorWFC.startX * MapGeneratorWFC.TILE_WIDTH + MapGeneratorWFC.TILE_WIDTH / 2;
-    static int startRoomCenterY = MapGeneratorWFC.startY * MapGeneratorWFC.TILE_HEIGHT + MapGeneratorWFC.TILE_HEIGHT / 2;
-    public Vector3Int StartRoomCenter = new Vector3Int(startRoomCenterX, startRoomCenterY, 0);  // Set this in Inspector or by code
-    public int ClearZoneSize = 6;       // Size of the clear zone (5x5)
-
-
     public void GenerateObjects()
     {
         PlaceCircleTraps();
@@ -63,7 +57,8 @@ public class ObjectGenerator : MonoBehaviour
             Vector3Int randomPosition = GetRandomPosition(bounds);
 
             // Check if the position is walkable and not already occupied.
-            if (WalkableTilemap.HasTile(randomPosition) && !occupiedPositions.Contains(randomPosition))
+            Debug.Log($"Checking center boolean: {IsInsideClearZone(new Vector3Int(MapGeneratorWFC.player_startX, MapGeneratorWFC.player_startY, 0))}");
+            if (WalkableTilemap.HasTile(randomPosition) && !occupiedPositions.Contains(randomPosition) && !IsInsideClearZone(randomPosition))
             {
                 occupiedPositions.Add(randomPosition); // Mark position as occupied.
 
@@ -86,12 +81,15 @@ public class ObjectGenerator : MonoBehaviour
     
     bool IsInsideClearZone(Vector3Int position)
     {
-        int halfSize = ClearZoneSize / 2;
-        return 
-            position.x >= StartRoomCenter.x - halfSize &&
-            position.x <= StartRoomCenter.x + halfSize &&
-            position.y >= StartRoomCenter.y - halfSize &&
-            position.y <= StartRoomCenter.y + halfSize;
+        int StartRoomCenterX = MapGeneratorWFC.player_startX;
+        int StartRoomCenterY = MapGeneratorWFC.player_startY;
+        int halfSize = 5;
+        Debug.Log($"Checking position at ({StartRoomCenterX}, {StartRoomCenterY}) with half size {halfSize}");
+        return
+            position.x >= StartRoomCenterX - halfSize &&
+            position.x <= StartRoomCenterX + halfSize &&
+            position.y >= StartRoomCenterY - halfSize &&
+            position.y <= StartRoomCenterY + halfSize;
     }
 
 }

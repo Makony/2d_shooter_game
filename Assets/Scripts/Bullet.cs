@@ -48,9 +48,9 @@ public class Bullet : MonoBehaviour
                     enemy.Die();
                     Player player = GameObject.FindWithTag("Player").GetComponent<Player>();      //get Player script
                     player.Health = Mathf.Ceil( Math.Clamp(player.Health + enemy.HealthGenerator, 0, player.MaxHP));    //add HP to player but HP can only be between 0 and MAX HP
-                    LevelManager.Instance.HPstat();
+                    LevelManager1.Instance.HPstat();
                     //LevelManager.Instance?.EnemyKilled(); //M: call the function in LevelManager to check if all enemies are dead
-                    // I was getting the message "Unity objects should not use null propagation" so I am using if clause now
+                    LevelManager1.Instance?.EnemyKilled(); //M: call the function in LevelManager to check if all enemies are dead
                     
                 }
             }
@@ -65,9 +65,9 @@ public class Bullet : MonoBehaviour
             if (collision.gameObject.TryGetComponent<Player>(out Player player))
             {
                 player.Health -= Mathf.Floor( bulletDamage / player.Armour);
-                if (LevelManager.Instance != null)
+                if (LevelManager1.Instance != null)
                 {
-                    LevelManager.Instance.HPstat();
+                    LevelManager1.Instance.HPstat();
                 }
                 if (player.Health <= 0)
                 {

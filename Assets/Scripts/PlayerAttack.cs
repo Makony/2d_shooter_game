@@ -7,8 +7,8 @@ public class PlayerAttack : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform Gun;
     public Transform BulletManager; //to make it clean if we are spawning 100+ bullets at a time. Basically all bullets are under That now
-    public GameObject LevelManager;
-    private LevelManager levelManager;
+    //public GameObject LevelManager1;
+    private LevelManager1 levelManager1;
 
     public Boolean isContinuesFire = false;   //false means something like a shotgun/pistol. true means rifle, smg and etc.
     public float bulletCooldown = 0.2f;      //Cooldown between shots
@@ -32,9 +32,9 @@ public class PlayerAttack : MonoBehaviour
     {
         Gun = transform.Find("Gun");
         RemainingAmmo = MaxAmmo;
-        LevelManager.TryGetComponent<LevelManager>(out levelManager);
+        levelManager1 = LevelManager1.Instance;
         AccuracyErrorAngle /= isContinuesFire ? 1 : 2;
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -44,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
             isContinuesFire = !isContinuesFire;
             AccuracyErrorAngle /= isContinuesFire ? (float)0.5 : 2;
             Debug.Log(AccuracyErrorAngle);
-            levelManager.AmmoIcon(isContinuesFire);
+            levelManager1.AmmoIcon(isContinuesFire);
         }
         if (Input.GetKeyDown(KeyCode.R)) { Reload(); }
 
@@ -52,7 +52,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (Input.GetMouseButton(0) && Time.time > lastBulletTime + bulletCooldown)
             {
-                animator.SetBool("isShooting", true);
+                //animator.SetBool("isShooting", true);
                 Shoot();
             }
         }
@@ -71,15 +71,15 @@ public class PlayerAttack : MonoBehaviour
         }
 
         if (!Input.GetMouseButton(0) && !Input.GetMouseButton(0)) {
-            animator.SetBool("isShooting", false);
+            //animator.SetBool("isShooting", false);
         }
     }
 
     IEnumerator Hipfires()
     {
-        animator.SetBool("isShooting", true);
+        //animator.SetBool("isShooting", true);
         yield return new WaitForSeconds(0.035f);
-        animator.SetBool("isShooting", false);
+        //animator.SetBool("isShooting", false);
     }
     void Reload()
     {
@@ -91,13 +91,13 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator Reloading()
     {
-        animator.SetBool("isShooting", false);
+        //animator.SetBool("isShooting", false);
         isReloading = true;
-        animator.SetBool("isReloading", true);
+        //animator.SetBool("isReloading", true);
         yield return new WaitForSeconds(ReloadTime); // Wait for "ReoloadTime" seconds
-        animator.SetBool("isReloading", false);
+        //animator.SetBool("isReloading", false);
         RemainingAmmo = MaxAmmo;
-        levelManager.AmmoStat();
+        levelManager1.AmmoStat();
         isReloading = false;
     }
 
@@ -133,7 +133,7 @@ public class PlayerAttack : MonoBehaviour
 
             lastBulletTime = Time.time;    //brought this here so it knows when last bullet got fired from the gun (not when you pressed your mouse button)
             RemainingAmmo--;
-            levelManager.AmmoStat();
+            LevelManager1.Instance.AmmoStat(); // Update ammo UI in LevelManager
             yield return null;  //wait 1 frame
         }
     }

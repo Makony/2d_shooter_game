@@ -67,7 +67,7 @@ public class LevelManager1 : MonoBehaviour
         statScreen.transform.Find("EnemyText").TryGetComponent<TextMeshProUGUI>(out enemytext);
         ammoIcon1 = statScreen.transform.Find("AmmoIcon1");
         ammoIcon2 = statScreen.transform.Find("AmmoIcon2");
-        gameOverScreen.transform.Find("ScoreText").TryGetComponent<TextMeshProUGUI>(out scoretext);
+        //gameOverScreen.transform.Find("ScoreText").TryGetComponent<TextMeshProUGUI>(out scoretext);
 
         UpdateAllStats();   //update them
 
@@ -83,7 +83,7 @@ public class LevelManager1 : MonoBehaviour
         {
             IsLevelStarted = true;
              ObjectGenerator.Instance.GenerateObjects(); // Place traps on the map
-            //StartLevel();
+            StartLevel();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -150,7 +150,7 @@ public class LevelManager1 : MonoBehaviour
         if (remainingEnemies <= 0)
         {
             Debug.Log("All enemies killed!");
-            StartCoroutine(DelayRewardScreen(5f));
+            //StartCoroutine(DelayRewardScreen(5f));
             //Debug.Log("Panel active in hierarchy? " + rewardScreen.activeInHierarchy);
         }
     }

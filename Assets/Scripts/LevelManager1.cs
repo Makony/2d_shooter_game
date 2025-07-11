@@ -40,8 +40,9 @@ public class LevelManager1 : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else { Destroy(gameObject); return; }
-        rewardScreen.SetActive(false);
+        //rewardScreen.SetActive(false);
         gameOverScreen.SetActive(false);
+        pausescreen.SetActive(false);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -189,7 +190,6 @@ public class LevelManager1 : MonoBehaviour
         rewardScreen.SetActive(false);
         Time.timeScale = 1f; //Resume the game
         LevelNumber++;
-        NextLevel();
     }
 
     //BuffPlayer after every level
@@ -212,7 +212,6 @@ public class LevelManager1 : MonoBehaviour
     public void PlayerKilled()
     {
         Time.timeScale = 0f;
-        scoretext.text = "Score = " + enemiesKilled.ToString();
         gameOverScreen.SetActive(true);
         Debug.Log("Game Over!");
     }
@@ -221,7 +220,7 @@ public class LevelManager1 : MonoBehaviour
     public void PlayAgain()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Level 1");
     }
 
     public void Resume()
@@ -238,16 +237,5 @@ public class LevelManager1 : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-    }
-
-    // Method to go the next level
-    void NextLevel()
-    {
-        float buff = 1f + 0.20f * LevelNumber;
-        totalEnemies = (float)Math.Ceiling(totalEnemies * buff);
-        remainingEnemies = totalEnemies;
-        EnemyManager.Instance.MakeEnemies(totalEnemies, buff);
-        playerStats.Health = playerStats.MaxHP;
-        UpdateAllStats();
     }
 }

@@ -122,59 +122,7 @@ public class LevelManager : MonoBehaviour
         enemytext.text = remainingEnemies.ToString();
     }
 
-
-    // Method that triggers the rewardScreen when all enemies are killed
-    public void EnemyKilled()
-    {
-        enemiesKilled++;
-        remainingEnemies--;
-        EnemyStat();
-        //Debug.Log("after" + enemiesKilled);
-        if (remainingEnemies <= 0)
-        {
-            Debug.Log("All enemies killed!");
-            StartCoroutine(DelayRewardScreen(5f));
-            //Debug.Log("Panel active in hierarchy? " + rewardScreen.activeInHierarchy);
-        }
-    }
-
-    private System.Collections.IEnumerator DelayRewardScreen(float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        Time.timeScale = 0f; //Pause the game
-        rewardScreen.SetActive(true);
-    }
-
-    // Method to handle the player's choice of reward and goes to the next level
-    public void ChooseReward(string reward)
-    {
-        BuffPlayer();
-        switch (reward)
-        {
-            case "Health":
-                playerStats.MaxHP = (float)Math.Ceiling(playerStats.MaxHP * 2.50f);
-                Debug.Log("Player MaxHP: " + playerStats.MaxHP);
-                break;
-            case "Ammo":
-                playerAttackStats.MaxAmmo = (float)Math.Ceiling(playerAttackStats.MaxAmmo * 2.50f);
-                Debug.Log("Player MaxAmmo: " + playerAttackStats.MaxAmmo);
-                break;
-            case "Faster Shooting":
-                playerAttackStats.BulletSpeed *= 2.50f;
-                Debug.Log("Player shooting speed: " + playerAttackStats.BulletSpeed);
-                break;
-            case "Damage":
-                playerAttackStats.BulletDamage *= 2.50f;
-                break;
-            case "Speed":
-                playerStats.speed *= 2.50f;
-                break;
-        }
-        rewardScreen.SetActive(false);
-        Time.timeScale = 1f; //Resume the game
-        LevelNumber++;
-        NextLevel();
-    }
+    
 
     //BuffPlayer after every level
     private void BuffPlayer()

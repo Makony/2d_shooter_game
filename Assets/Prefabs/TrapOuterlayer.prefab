@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 6852581651893949197}
   m_Layer: 0
   m_Name: TrapOuterlayer
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -225,3 +225,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078c06b4df25ea64f8ac807764d75947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggerRange: 30

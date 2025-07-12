@@ -11,6 +11,7 @@ TagManager:
   - BulletFriendly
   - Trap
   - Bow
+  - Box
   layers:
   - Default
   - TransparentFX

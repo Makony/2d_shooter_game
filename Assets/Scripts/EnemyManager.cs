@@ -52,37 +52,37 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void MakeEnemies(float totalEnemies, float buff)
-    {
-        StartCoroutine(MakingEnemies(totalEnemies, buff));
-    }
+    // public void MakeEnemies(float totalEnemies, float buff)
+    // {
+    //     StartCoroutine(MakingEnemies(totalEnemies, buff));
+    // }
 
-    IEnumerator MakingEnemies(float totalEnemies, float buff)
-    {
-        for (int i = 0; i < totalEnemies; i++)
-        {
-            GameObject enemy = Instantiate(enemyPrefab, spawnpoints[currentSpawnpointIndex], Quaternion.identity, transform);
-            enemy.TryGetComponent<Enemy>(out enemyStats);
-            enemy.TryGetComponent<EnemyAttack>(out enemyAttackStats);
-            enemyStats.waypoints = new Transform[2];
-            for (int j = 0; j < 2; j++)
-            {
-                enemyStats.waypoints[j] = waypoints[currentWaypointIndex];
-                if (currentWaypointIndex == waypointsCount - 1)
-                {
-                    currentWaypointIndex = 0;
-                }
-                else currentWaypointIndex++;
-            }
-            if (currentSpawnpointIndex == spawnpointsCount - 1)
-            {
-                currentSpawnpointIndex = 0;
-            }
-            else currentSpawnpointIndex++;
-            BuffEnemies(buff);
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
+    // IEnumerator MakingEnemies(float totalEnemies, float buff)
+    // {
+    //     for (int i = 0; i < totalEnemies; i++)
+    //     {
+    //         GameObject enemy = Instantiate(enemyPrefab, spawnpoints[currentSpawnpointIndex], Quaternion.identity, transform);
+    //         enemy.TryGetComponent<Enemy>(out enemyStats);
+    //         enemy.TryGetComponent<EnemyAttack>(out enemyAttackStats);
+    //         enemyStats.waypoints = new Transform[2];
+    //         for (int j = 0; j < 2; j++)
+    //         {
+    //             enemyStats.waypoints[j] = waypoints[currentWaypointIndex];
+    //             if (currentWaypointIndex == waypointsCount - 1)
+    //             {
+    //                 currentWaypointIndex = 0;
+    //             }
+    //             else currentWaypointIndex++;
+    //         }
+    //         if (currentSpawnpointIndex == spawnpointsCount - 1)
+    //         {
+    //             currentSpawnpointIndex = 0;
+    //         }
+    //         else currentSpawnpointIndex++;
+    //         BuffEnemies(buff);
+    //         yield return new WaitForSeconds(0.1f);
+    //     }
+    // }
 
     private void BuffEnemies(float buff)
     {

@@ -173,13 +173,13 @@ public class LevelManager : MonoBehaviour
     }
 
     // Method to go the next level
-    void NextLevel()
-    {
-        float buff = 1f + 0.20f * LevelNumber;
-        totalEnemies = (float)Math.Ceiling(totalEnemies * buff);
-        remainingEnemies = totalEnemies;
-        EnemyManager.Instance.MakeEnemies(totalEnemies, buff);
-        playerStats.Health = playerStats.MaxHP;
-        UpdateAllStats();
-    }
+    // void NextLevel()
+    // {
+    //     float buff = 1f + 0.20f * LevelNumber;
+    //     totalEnemies = (float)Math.Ceiling(totalEnemies * buff);
+    //     remainingEnemies = totalEnemies;
+    //     EnemyManager.Instance.MakeEnemies(totalEnemies, buff);
+    //     playerStats.Health = playerStats.MaxHP;
+    //     UpdateAllStats();
+    // }
 }

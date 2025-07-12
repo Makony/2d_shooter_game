@@ -627,6 +627,7 @@ public class MapGeneratorWFC : MonoBehaviour
             }
         }
         IsFinished = true;
+        PathfindingManager.Instance.InitializeGrid();
     }
 
     private void GroupBowTraps(GameObject prefab)

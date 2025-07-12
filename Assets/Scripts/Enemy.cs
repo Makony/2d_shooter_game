@@ -5,13 +5,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
-
-
-
-    //For Enemy Stas
+ //For Enemy Stas
     public float Speed = 5f;
     public float Health = 100f;
     public float Armour = 1f; //Minimum 1. It can be as high as you much but don't forget (real dmg = dmg/Armour)
@@ -31,7 +29,7 @@ public class Enemy : MonoBehaviour
 
     //For the agent and waypoints/spawnpoints ...
     [SerializeField]
-    NavMeshAgent agent;
+    //NavMeshAgent agent;
     public Transform[] waypoints;         //just added it for fun. So enemies in first level/round can go from point A to B (technically to more Waypoints but I am keeping it simple)
     public float StoppingDuration = 1f;
     private int currentWaypointIndex = 0;  // Start at the first waypoint
@@ -40,7 +38,7 @@ public class Enemy : MonoBehaviour
     private float ShootingWaitTime;
     public float ShootingWaitTimeMultiplicator = 1;
     private EnemyAttack enemyAttack;
-    
+
 
     //movement, aim direction, checkingforplayers and etc.
     public Transform target;
@@ -55,21 +53,32 @@ public class Enemy : MonoBehaviour
     //for animation and stuff
     private Animator animator;
 
+    [Header("Pathfinding")]
+    public float pathUpdateInterval = 5f;
+    public float stoppingDistance = 3f;
+
+    private List<Node> currentPath;
+    private int currentPathIndex;
+    private float nextPathTime;
+    private Vector2 lastPlayerPosition;
+    private PathfindingManager pathManager;
+    private Coroutine pathUpdateCoroutine;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        pathManager = PathfindingManager.Instance;
 
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
+        // agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        // agent.updateRotation = false;
+        // agent.updateUpAxis = false;
 
         TryGetComponent<EnemyAttack>(out enemyAttack);
 
-        agent.stoppingDistance = StoppingDistance;
-        agent.speed = 3.5f;
-        agent.isStopped = true;
+        // agent.stoppingDistance = StoppingDistance;
+        // agent.speed = 3.5f;
+        // agent.isStopped = true;
 
         rb = GetComponent<Rigidbody2D>();
 
@@ -103,22 +112,25 @@ public class Enemy : MonoBehaviour
             lastCheckedForPlayer = Time.time;
         }
 
-        if (agent.isStopped)
-        {
-            animator.SetBool("isRunning", false);
-        }
-        else
-        {
-            animator.SetBool("isRunning", true);
-        }
+
+
+        // if (agent.isStopped)
+        // {
+        //     animator.SetBool("isRunning", false);
+        // }
+        // else
+        // {
+        //     animator.SetBool("isRunning", true);
+        // }
     }
 
     private void FixedUpdate()
     {
+
         if (gameObject == null) return;
         if (isPlayerFound)
         {
-            ChasePlayer();
+            FollowPath();
             ShootPlayer();
         }
 
@@ -127,7 +139,7 @@ public class Enemy : MonoBehaviour
             //if there are two waypoints or more. Go through all of them and patrol
             if (!isStationary && waypoints.Length >= 2)
             {
-                Patroling();
+                //Patroling();
             }
             if (waypoints.Length == 1)  //added this for spawned enemies so they go to one particular point on a map
             {
@@ -138,9 +150,55 @@ public class Enemy : MonoBehaviour
 
     }
 
+    private void UpdatePathToPlayer()
+    {
+        if (target == null) return;
+        
+        // Only update if enough time passed AND player moved significantly
+        if (Time.time < nextPathTime || 
+            Vector2.Distance(target.position, lastPlayerPosition) < 2f) 
+        {
+            return;
+        }
+        
+        // Limit pathfinding range
+        if (Vector2.Distance(transform.position, target.position) > 50f)
+        {
+            currentPath = null;
+            return;
+        }
+
+        currentPath = pathManager.FindPath(transform.position, target.position);
+        currentPathIndex = 0;
+        lastPlayerPosition = target.position;
+        nextPathTime = Time.time + 1f; // Update max once per second
+    }
+
+    private void FollowPath()
+    {
+        if (currentPath == null || currentPathIndex >= currentPath.Count)
+        {
+            rb.linearVelocity = Vector2.zero; // Stop movement if no path is available
+            return;
+        }
+
+        Vector2 targetPos = PathfindingManager.Instance.GridToWorldPosition(
+            currentPath[currentPathIndex].GetX(),
+            currentPath[currentPathIndex].GetY()
+        );
+
+        Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
+        rb.linearVelocity = direction * Speed;
+
+        if (Vector2.Distance(transform.position, targetPos) < stoppingDistance)
+        {
+            currentPathIndex++;
+        }
+    }
+
     private void Rotate()
     {
-        if (!isPlayerFound) movingDirection = agent.velocity.normalized;
+        //if (!isPlayerFound) movingDirection = agent.velocity.normalized;
 
         if (isPlayerFound)
         {
@@ -156,36 +214,36 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Patroling()
-    {
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            if (MovingWaitTime <= 0f)
-            {
-                MovingWaitTime = StoppingDuration;
-                agent.SetDestination(waypoints[currentWaypointIndex].position);
-                if (currentWaypointIndex == waypoints.Length - 1)
-                {
-                    currentWaypointIndex = 0;
-                }
-                else
-                {
-                    currentWaypointIndex++;
-                }
-            }
-            else
-            {
+    // private void Patroling()
+    // {
+    //     if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+    //     {
+    //         if (MovingWaitTime <= 0f)
+    //         {
+    //             MovingWaitTime = StoppingDuration;
+    //             agent.SetDestination(waypoints[currentWaypointIndex].position);
+    //             if (currentWaypointIndex == waypoints.Length - 1)
+    //             {
+    //                 currentWaypointIndex = 0;
+    //             }
+    //             else
+    //             {
+    //                 currentWaypointIndex++;
+    //             }
+    //         }
+    //         else
+    //         {
 
-                MovingWaitTime -= Time.deltaTime;
-            }
-            agent.isStopped = true;
-        }
-        else
-        {
-            agent.isStopped = false;
-        }
+    //             MovingWaitTime -= Time.deltaTime;
+    //         }
+    //         agent.isStopped = true;
+    //     }
+    //     else
+    //     {
+    //         agent.isStopped = false;
+    //     }
 
-    }
+    // }
 
     //This class tries to find out if the player is in view distance and not behind a wall (collisions)
     private void PlayerExistence()
@@ -236,31 +294,40 @@ public class Enemy : MonoBehaviour
             //PlayerLastPosition = PlayerPos;
 
             isFirstTime = false;
-            agent.speed = Speed;     //probably need to change this
-            agent.isStopped = false;
-            agent.stoppingDistance = 5;
+            // agent.speed = Speed;     //probably need to change this
+            // agent.isStopped = false;
+            // agent.stoppingDistance = 5;
             MovingWaitTime = Time.time + (1f / MovingWaitTimeMutliplicator);
             ShootingWaitTime = Time.time + (0.5f / ShootingWaitTimeMultiplicator);
             isPlayerFound = true;
+            if (pathUpdateCoroutine == null)
+            {
+                pathUpdateCoroutine = StartCoroutine(UpdatePathRoutine());
+            }
         }
     }
 
-
-    private void ChasePlayer()
+    IEnumerator UpdatePathRoutine()
     {
-        if (Time.time > MovingWaitTime)
+        while (isPlayerFound)
         {
-            agent.SetDestination(target.position);
+            // Add random delay to spread updates
+            float delay = Random.Range(0.1f, 0.5f);
+            yield return new WaitForSeconds(delay);
+            
+            UpdatePathToPlayer();
+            yield return new WaitForSeconds(pathUpdateInterval);
         }
-
+        pathUpdateCoroutine = null;
     }
+
     private void ShootPlayer()
     {
-        if (Time.time > ShootingWaitTime && PlayerInViewAngle(aimDirection, 20f) && NoObstacleToPlayer( aimDirection))
+        if (Time.time > ShootingWaitTime && PlayerInViewAngle(aimDirection, 20f) && NoObstacleToPlayer(aimDirection))
         {
             enemyAttack.isShootingAllowed = true;
         }
-        else if ( !PlayerInViewAngle(aimDirection, 20f) || !NoObstacleToPlayer( aimDirection))
+        else if (!PlayerInViewAngle(aimDirection, 20f) || !NoObstacleToPlayer(aimDirection))
         {
             enemyAttack.isShootingAllowed = false;
         }
@@ -295,12 +362,18 @@ public class Enemy : MonoBehaviour
         transform.right = Vector3.right;
         transform.localScale = new Vector3(2, 2, 2);
 
-        // Stop the enemy
-        if (agent != null)
+        if (pathUpdateCoroutine != null)
         {
-            agent.isStopped = true;
-            agent.enabled = false;
+            StopCoroutine(pathUpdateCoroutine);
+            pathUpdateCoroutine = null;
         }
+
+        // Stop the enemy
+        // if (agent != null)
+        // {
+        //     agent.isStopped = true;
+        //     agent.enabled = false;
+        // }
 
         // Lock Rigidbody
         if (rb != null) rb.constraints = RigidbodyConstraints2D.FreezeAll;

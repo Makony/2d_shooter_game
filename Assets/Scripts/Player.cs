@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public Transform gun;
 
     //Player Stats like HP, Speed and etc.
-    public float speed = 8f;
+    public float speed = 10f;
     public float RotationSpeed = 10f;   //higher values means faster rotation
     public float rotationMinDistance = 0.1f;  //a value means no rotation if the distance from mouse and middle of the player is lower.
     public float Health = 100f;

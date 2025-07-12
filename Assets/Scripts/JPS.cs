@@ -64,6 +64,11 @@ public class JPS
 
     private List<Node> IdentifySuccessors(Node current, Node goal)
     {
+        if (HasStraightPath(current, goal))
+        {
+            return new List<Node> { goal };
+        }
+
         List<Node> successors = new List<Node>();
         Node parent = current.GetParent();
         int dx = 0, dy = 0;
@@ -90,53 +95,97 @@ public class JPS
         return successors;
     }
 
+    private bool HasStraightPath(Node from, Node to)
+    {
+        int dx = Math.Sign(to.GetX() - from.GetX());
+        int dy = Math.Sign(to.GetY() - from.GetY());
+        
+        int x = from.GetX();
+        int y = from.GetY();
+        
+        while (x != to.GetX() || y != to.GetY())
+        {
+            x += dx;
+            y += dy;
+            
+            Node node = grid.GetNode(x, y);
+            if (node == null || !node.IsWalkable()) return false;
+        }
+        return true;
+    }
 
-    /*private Node Jump(Node current, Node goal, int dx, int dy)
+    private Node Jump(Node current, Node goal, int dx, int dy)
     {
         int x = current.GetX() + dx;
         int y = current.GetY() + dy;
 
-        if (!grid.IsWalkable(x, y))
+        // Check if next position is within grid bounds
+        if (x < 0 || x >= grid.GetWidth() || y < 0 || y >= grid.GetHeight())
             return null;
 
         Node node = grid.GetNode(x, y);
-        if (node == null)
+
+        // Add null checks
+        if (node == null || !node.IsWalkable())
             return null;
 
         if (node.Equals(goal))
             return node;
 
-        // Check for "No Corner Cutting"
+        // Check for "No Corner Cutting" with boundary checks
         if (dx != 0 && dy != 0)
         {
-            if (!grid.IsWalkable(x, current.GetY()) &&
-                !grid.IsWalkable(current.GetX(), y))
+            if ((x - dx >= 0 && x - dx < grid.GetWidth() &&
+                 !grid.IsWalkable(x, current.GetY())) &&
+                (y - dy >= 0 && y - dy < grid.GetHeight() &&
+                 !grid.IsWalkable(current.GetX(), y)))
             {
                 return null;
             }
         }
 
-        // Forced neighbor checks
+        // Forced neighbor checks with boundary safety
         if (dx != 0 && dy != 0)  // Diagonal movement
         {
-            if ((!grid.IsWalkable(x - dx, y) && grid.IsWalkable(x - dx, y + dy)) ||
-                (!grid.IsWalkable(x, y - dy) && grid.IsWalkable(x + dx, y - dy)))
+            // Check left neighbor
+            if (x - dx >= 0 && !grid.IsWalkable(x - dx, y) &&
+                x + dx < grid.GetWidth() && grid.IsWalkable(x + dx, y))
+            {
+                return node;
+            }
+            // Check bottom neighbor
+            if (y - dy >= 0 && !grid.IsWalkable(x, y - dy) &&
+                y + dy < grid.GetHeight() && grid.IsWalkable(x, y + dy))
             {
                 return node;
             }
         }
         else if (dx != 0)  // Horizontal movement
         {
-            if ((!grid.IsWalkable(x, y + 1) && grid.IsWalkable(x + dx, y + 1)) ||
-                (!grid.IsWalkable(x, y - 1) && grid.IsWalkable(x + dx, y - 1)))
+            // Check top neighbor
+            if (y + 1 < grid.GetHeight() && !grid.IsWalkable(x, y + 1) &&
+                x + dx < grid.GetWidth() && grid.IsWalkable(x + dx, y + 1))
+            {
+                return node;
+            }
+            // Check bottom neighbor
+            if (y - 1 >= 0 && !grid.IsWalkable(x, y - 1) &&
+                x + dx < grid.GetWidth() && grid.IsWalkable(x + dx, y - 1))
             {
                 return node;
             }
         }
         else if (dy != 0)  // Vertical movement
         {
-            if ((!grid.IsWalkable(x + 1, y) && grid.IsWalkable(x + 1, y + dy)) ||
-                (!grid.IsWalkable(x - 1, y) && grid.IsWalkable(x - 1, y + dy)))
+            // Check right neighbor
+            if (x + 1 < grid.GetWidth() && !grid.IsWalkable(x + 1, y) &&
+                y + dy < grid.GetHeight() && grid.IsWalkable(x + 1, y + dy))
+            {
+                return node;
+            }
+            // Check left neighbor
+            if (x - 1 >= 0 && !grid.IsWalkable(x - 1, y) &&
+                y + dy < grid.GetHeight() && grid.IsWalkable(x - 1, y + dy))
             {
                 return node;
             }
@@ -145,112 +194,23 @@ public class JPS
         // Recursive jumps with boundary checks
         if (dx != 0 && dy != 0)
         {
-            // Check horizontal and vertical jumps
-            if (Jump(node, goal, dx, 0) != null || Jump(node, goal, 0, dy) != null)
+            // Check horizontal and vertical jumps only if within bounds
+            if ((dx != 0 && Jump(node, goal, dx, 0) != null) ||
+                (dy != 0 && Jump(node, goal, 0, dy) != null))
+            {
                 return node;
+            }
         }
 
+        // Only continue if next position is within bounds
+        if (x + dx >= 0 && x + dx < grid.GetWidth() &&
+            y + dy >= 0 && y + dy < grid.GetHeight())
+        {
+            return Jump(node, goal, dx, dy);
+        }
 
-        return Jump(node, goal, dx, dy);
-    }*/
-
-    private Node Jump(Node current, Node goal, int dx, int dy)
-{
-    int x = current.GetX() + dx;
-    int y = current.GetY() + dy;
-
-    // Check if next position is within grid bounds
-    if (x < 0 || x >= grid.GetWidth() || y < 0 || y >= grid.GetHeight())
         return null;
-
-    Node node = grid.GetNode(x, y);
-    
-    // Add null checks
-    if (node == null || !node.IsWalkable())
-        return null;
-
-    if (node.Equals(goal))
-        return node;
-
-    // Check for "No Corner Cutting" with boundary checks
-    if (dx != 0 && dy != 0)
-    {
-        if ((x - dx >= 0 && x - dx < grid.GetWidth() && 
-             !grid.IsWalkable(x, current.GetY())) &&
-            (y - dy >= 0 && y - dy < grid.GetHeight() && 
-             !grid.IsWalkable(current.GetX(), y)))
-        {
-            return null;
-        }
     }
-
-    // Forced neighbor checks with boundary safety
-    if (dx != 0 && dy != 0)  // Diagonal movement
-    {
-        // Check left neighbor
-        if (x - dx >= 0 && !grid.IsWalkable(x - dx, y) && 
-            x + dx < grid.GetWidth() && grid.IsWalkable(x + dx, y))
-        {
-            return node;
-        }
-        // Check bottom neighbor
-        if (y - dy >= 0 && !grid.IsWalkable(x, y - dy) && 
-            y + dy < grid.GetHeight() && grid.IsWalkable(x, y + dy))
-        {
-            return node;
-        }
-    }
-    else if (dx != 0)  // Horizontal movement
-    {
-        // Check top neighbor
-        if (y + 1 < grid.GetHeight() && !grid.IsWalkable(x, y + 1) && 
-            x + dx < grid.GetWidth() && grid.IsWalkable(x + dx, y + 1))
-        {
-            return node;
-        }
-        // Check bottom neighbor
-        if (y - 1 >= 0 && !grid.IsWalkable(x, y - 1) && 
-            x + dx < grid.GetWidth() && grid.IsWalkable(x + dx, y - 1))
-        {
-            return node;
-        }
-    }
-    else if (dy != 0)  // Vertical movement
-    {
-        // Check right neighbor
-        if (x + 1 < grid.GetWidth() && !grid.IsWalkable(x + 1, y) && 
-            y + dy < grid.GetHeight() && grid.IsWalkable(x + 1, y + dy))
-        {
-            return node;
-        }
-        // Check left neighbor
-        if (x - 1 >= 0 && !grid.IsWalkable(x - 1, y) && 
-            y + dy < grid.GetHeight() && grid.IsWalkable(x - 1, y + dy))
-        {
-            return node;
-        }
-    }
-
-    // Recursive jumps with boundary checks
-    if (dx != 0 && dy != 0)
-    {
-        // Check horizontal and vertical jumps only if within bounds
-        if ((dx != 0 && Jump(node, goal, dx, 0) != null) ||
-            (dy != 0 && Jump(node, goal, 0, dy) != null))
-        {
-            return node;
-        }
-    }
-
-    // Only continue if next position is within bounds
-    if (x + dx >= 0 && x + dx < grid.GetWidth() && 
-        y + dy >= 0 && y + dy < grid.GetHeight())
-    {
-        return Jump(node, goal, dx, dy);
-    }
-    
-    return null;
-}
 
     private List<int[]> PruneDirections(int dx, int dy)
     {

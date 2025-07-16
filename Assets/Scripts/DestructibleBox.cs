@@ -18,8 +18,7 @@ public class DestructibleBox : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet") && collision.gameObject.layer == LayerMask.NameToLayer("Bullet (friendly)"))
         {
-            didPlayerDestroy = true;
-            SoundManager.Instance.BoxDestroySound();
+            didPlayerDestroy = true;    
             Destroy(gameObject);
         }
         else if (collision.gameObject.CompareTag("Bullet"))
@@ -31,7 +30,7 @@ public class DestructibleBox : MonoBehaviour
     private void OnDestroy()
     {
         if (destroyed) return;
-
+        SoundManager.Instance.BoxDestroySound();
         destroyed = true;
 
         if (didPlayerDestroy)

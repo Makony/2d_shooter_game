@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f) return;
         if (isInTrap && Time.time >= lastDamageTime + trapDmgTimer) //if inside the trap do dmg every second
         {
             GetTrapDamage();

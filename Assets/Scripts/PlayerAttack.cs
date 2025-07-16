@@ -40,6 +40,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f) return;
         if (Input.GetKeyDown(KeyCode.B))
         {
             isContinuesFire = !isContinuesFire;

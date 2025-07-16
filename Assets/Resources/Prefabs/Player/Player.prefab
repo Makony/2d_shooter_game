@@ -255,7 +255,7 @@ MonoBehaviour:
   Health: 100
   Lifes: 1
   MaxHP: 100
-  Armour: 111111
+  Armour: 1
   isDead: 0
   deathSprite: {fileID: 1297667481294870457, guid: 9f17ce60f082cb540bc2b490633946ef, type: 3}
 --- !u!114 &4727362266616974944

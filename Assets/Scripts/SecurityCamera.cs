@@ -92,7 +92,7 @@ public class SecurityCamera : MonoBehaviour
     private void HandleEnemyDeathInView()
     {
         SoundTheAlarm();
-        DialogManager.Instance.ShowDialogWithTimer("The Camera saw an enemy die. \n\nRIP... \n\n to you :_:", 7f);
+        DialogManager.Instance.ShowDialogWithTimer("The Camera saw an enemy die. \n\nRIP... \n\n to you :_:", 5f);
     }
 
     private IEnumerator DetectionSequence(Collider2D playerCollider)

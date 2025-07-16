@@ -44,7 +44,11 @@ public class KeyLogic : MonoBehaviour
             case "Key4":
                 LevelManager.Instance.Key4 = true;
                 break;
+            case "KillCode":
+                LevelManager.Instance.HasAllKillCodes = true;
+                break;
         }
+        LevelManager.Instance.KillCodeStat();
         LevelManager.Instance.KeysStat();
         SoundManager.Instance.KeyCollectSound();
         Destroy(gameObject);

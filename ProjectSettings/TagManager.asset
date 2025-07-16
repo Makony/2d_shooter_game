@@ -19,6 +19,7 @@ TagManager:
   - StartingRoom
   - CCTV
   - Arrow
+  - KillCode
   layers:
   - Default
   - TransparentFX

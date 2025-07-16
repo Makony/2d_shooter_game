@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using System.Threading;
+using System;
+using UnityEngine.SceneManagement;
 
 public class DialogManager : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelTitlePanelText;
     [SerializeField] private Button StartButton;
 
+    private bool continueButtonPressed = false;
+
 
     private void Awake()
     {
@@ -26,7 +30,7 @@ public class DialogManager : MonoBehaviour
 
         dialogPanel.SetActive(false);
         StartButton.onClick.AddListener(HideIntro);
-        levelTitlePanel.SetActive(false);
+        //levelTitlePanel.SetActive(false);
         StartButton.gameObject.SetActive(false);
     }
     
@@ -54,31 +58,81 @@ public class DialogManager : MonoBehaviour
         StartButton.gameObject.SetActive(true);
     }
 
+
+
+    public void StartLevelIntro2()
+    {
+        StartCoroutine(IntroSequence2());
+    }
+
+    private IEnumerator IntroSequence2()
+    {
+        string[] messages =
+        {
+            "Wait... what? This cannot be... \n The Portal sent us to our old HQ.",
+            "We lost this HQ after THEY went rogue. \n The robots here are... let's just say they get a lot faster overtime.",
+            "Your new objective is to find another teleporter, now!",
+            "And be careful, this place is crawling with our old security cameras.\n Honestly, I don't even remember what we programmed them to do. Good luck with that! :-)",
+            "Okay, I've got the old HQ's map. Let me sync the path to your 'Super-Duper Goggles 3000'. \n Oh noooooooooooooooooooooooo my chips fell on the ground. Dang it, I have to move and grab them now. Give me a bit time"
+        };
+
+        levelTitlePanel.SetActive(true);
+        Time.timeScale = 0f;
+
+
+        foreach (string msg in messages)
+        {
+            levelTitlePanelText.text = msg;
+            levelTitlePanelText.fontSize = 16;
+
+            StartButton.gameObject.SetActive(true);
+
+            continueButtonPressed = false;
+            yield return new WaitUntil(() => continueButtonPressed);
+
+            StartButton.gameObject.SetActive(false);
+        }
+        levelTitlePanel.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
     private void HideIntro()
     {
+        if (SceneManager.GetActiveScene().name == "Level2")
+        {
+            OnContinuePressed();
+            return;
+        }
         Debug.Log("HideIntro method called!");
         Time.timeScale = 1f;
         levelTitlePanel.SetActive(false);
     }
 
 
-    public void ShowDialog(string message)
+    public void ShowDialog(string message, Boolean IsTimeStopped = false)
     {
         dialogPanel.SetActive(true);
         dialogText.text = message;
+        if (IsTimeStopped == true) Time.timeScale = 0f;
     }
 
-    public void ShowDialogWithTimer(string message, float Timer = 10f)
+    public void ShowDialogWithTimer(string message, float Timer = 10f, Boolean IsTimeStopped = false)
     {
         dialogPanel.SetActive(true);
         dialogText.text = message;
-        StartCoroutine(ShowDialogCoroutine(Timer));
+        StartCoroutine(ShowDialogCoroutine(Timer, IsTimeStopped));
     }
 
-    private IEnumerator ShowDialogCoroutine(float Timer)
+    private IEnumerator ShowDialogCoroutine(float Timer, Boolean IsTimeStopped = false)
     {
-        yield return new WaitForSeconds(Timer);
+        if (IsTimeStopped == true) Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(Timer);
         HideDialog();
+    }
+
+    private void OnContinuePressed()
+    {
+        continueButtonPressed = true;
     }
 
     public void HideDialog()

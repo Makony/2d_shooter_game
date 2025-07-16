@@ -769,7 +769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 304, y: -22}
   m_SizeDelta: {x: 75, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &501725502
@@ -1608,8 +1608,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 900, y: 600}
+  m_AnchoredPosition: {x: 0, y: -150}
+  m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1428057857
 MonoBehaviour:
@@ -1810,7 +1810,9 @@ MonoBehaviour:
   Key4: 0
   IsDoorOpen: 0
   globalAlarmSound: {fileID: 0}
+  alarmAudioSource: {fileID: 0}
   IsWFCFinished: 0
+  IsAllowedToSeePath: 0
 --- !u!114 &1710182939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1931,6 +1933,18 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1710182943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710182933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad051ea44afd4344b37e924a3116a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1721351260
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,7 +2002,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Start
+  m_text: 'continue
 
 '
   m_isRightToLeft: 0
@@ -2017,8 +2031,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2143,7 +2157,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level 2
+  m_text: '
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2498,11 +2514,14 @@ MonoBehaviour:
     F - Flashlight
 
 
-    M - Hide Dialogue Window
+    T - Find THE :D
 
 
-    Esc
-    - Pause Game'
+    M - Hide
+    Dialogue Window
+
+
+    Esc - Pause Game'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2746,6 +2765,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9120867139181944589, guid: ffbec7ebf47e270439ea1763c78cd9ba, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1710182942}
+    - targetCorrespondingSourceObject: {fileID: 9120867139181944589, guid: ffbec7ebf47e270439ea1763c78cd9ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1710182943}
     - targetCorrespondingSourceObject: {fileID: 7303217775245250536, guid: ffbec7ebf47e270439ea1763c78cd9ba, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1767062512}

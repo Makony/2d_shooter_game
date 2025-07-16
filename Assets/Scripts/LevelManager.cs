@@ -58,10 +58,10 @@ public class LevelManager : MonoBehaviour
 
 
     public AudioClip globalAlarmSound;
-    private AudioSource alarmAudioSource;
+    public AudioSource alarmAudioSource;
 
     public Boolean IsWFCFinished = false;
-
+    public Boolean IsAllowedToSeePath = false;
 
 
 
@@ -115,8 +115,11 @@ public class LevelManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            Debug.Log("toggle");
             dialogScreen.SetActive(!dialogScreen.activeSelf);
+            PathDrawer.Instance.CalculatePath();
+        }
+        if (IsAllowedToSeePath && Input.GetKeyDown(KeyCode.T))
+        {
             PathDrawer.Instance.CalculatePath();
         }
     }
@@ -212,7 +215,7 @@ public class LevelManager : MonoBehaviour
         EnemyManager.Instance.MakeEnemies(10f, 0.9f); // Create enemies
 
         CameraControll.Instance.SetPlayer(player.transform); // Set the player for the camera to follow
-        //DialogManager.Instance.StartLevelIntro();
+        DialogManager.Instance.StartLevelIntro2();
 
         OpenDoorForNextLevel();
     }

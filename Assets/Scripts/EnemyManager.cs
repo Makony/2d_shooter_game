@@ -83,12 +83,12 @@ public class EnemyManager : MonoBehaviour
         BuffEnemies(1.0f);
     }
 
-    public void MakeEnemies(float totalEnemies, float buff)
+    public void MakeEnemies(float totalEnemies, float buff, Boolean isBuffNeeded = false)
     {
-        StartCoroutine(MakingEnemies(totalEnemies, buff));
+        StartCoroutine(MakingEnemies(totalEnemies, buff, isBuffNeeded));
     }
 
-    IEnumerator MakingEnemies(float totalEnemies, float buff)
+    IEnumerator MakingEnemies(float totalEnemies, float buff, Boolean isBuffNeeded = false)
     {
         for (int i = 0; i < totalEnemies; i++)
         {
@@ -110,24 +110,27 @@ public class EnemyManager : MonoBehaviour
                 currentSpawnpointIndex = 0;
             }
             else currentSpawnpointIndex++;
-            //BuffEnemies(buff);
-            yield return new WaitForSeconds(0.1f);
+            BuffEnemies(buff, isBuffNeeded);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
-    private void BuffEnemies(float buff)
+    private void BuffEnemies(float buff, Boolean isBuffNeeded = false)
     {
+        enemyStats.IsBuffNeeded = isBuffNeeded;
+
         enemyStats.Speed *= buff;
         enemyStats.Health *= buff;
         enemyStats.rotationSpeed *= buff;
         enemyStats.ViewDistance *= buff;
-        //enemyStats.ShootingWaitTimeMultiplicator *= buff;
-        //enemyStats.MovingWaitTimeMutliplicator *= buff;
+        enemyStats.ShootingWaitTimeMultiplicator *= buff;
+        enemyStats.MovingWaitTimeMutliplicator *= buff;
         enemyStats.ViewAngle *= buff;
 
         enemyAttackStats.bulletCooldown /= buff;
         enemyAttackStats.BulletSpeed *= buff;
         enemyAttackStats.BulletDamage *= buff;
         enemyAttackStats.MaxAmmo *= buff;
+        
     }
 }

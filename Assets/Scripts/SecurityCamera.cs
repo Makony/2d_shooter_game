@@ -137,7 +137,7 @@ public class SecurityCamera : MonoBehaviour
             isDetecting = false;
         }
     }
-    
+
     public void SoundTheAlarm()
     {
         if (eyeSprite != null) eyeSprite.color = Color.red;
@@ -153,5 +153,6 @@ public class SecurityCamera : MonoBehaviour
             Debug.LogWarning("The CCTV " + name + " is missing a SecurityCamera script.", gameObject);
         }
         LevelManager.Instance.TriggerGlobalAlarm();
+        LevelManager.Instance.IsDetected = true;
     }
 }

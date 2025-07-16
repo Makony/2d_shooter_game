@@ -63,6 +63,7 @@ public class LevelManager : MonoBehaviour
     public Boolean IsWFCFinished = false;
     public Boolean IsAllowedToSeePath = false;
 
+    public Boolean IsDetected = false;
 
 
 
@@ -117,7 +118,6 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             dialogScreen.SetActive(!dialogScreen.activeSelf);
-            PathDrawer.Instance.CalculatePath();
         }
         if (IsAllowedToSeePath && Input.GetKeyDown(KeyCode.T))
         {
@@ -130,7 +130,7 @@ public class LevelManager : MonoBehaviour
         MapManager.Instance.GetTemplateInforomations();
         GridManager.Instance.CreateGridFromTilemaps(GlobalWallTilemap.Instance.GetComponent<Tilemap>(), GlobalFloorTilemap.Instance.GetComponent<Tilemap>());
         SoundManager.Instance.backgroundMusicSource.clip = SoundManager.Instance.backgroundMusicClip;
-
+        
         int numChildren = MapManager.Instance.transform.childCount;
         ObjectGenerator.Instance.GenerateObjects(numChildren * 3, numChildren * 3);
 
@@ -214,13 +214,14 @@ public class LevelManager : MonoBehaviour
 
         enemiesKilled = 0;
         EnemyManager.Instance.Getpoints(); // Get waypoints and spawnpoints
-        EnemyManager.Instance.MakeEnemies(10f, 0.9f); // Create enemies
+        EnemyManager.Instance.MakeEnemies(10f, 0.8f); // Create enemies
 
         CameraControll.Instance.SetPlayer(player.transform); // Set the player for the camera to follow
         DialogManager.Instance.StartLevelIntro2();
 
         OpenDoorForNextLevel();
     }
+
 
     public void TriggerGlobalAlarm()
     {

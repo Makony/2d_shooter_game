@@ -83,7 +83,7 @@ public class DialogManager : MonoBehaviour
         foreach (string msg in messages)
         {
             levelTitlePanelText.text = msg;
-            levelTitlePanelText.fontSize = 16;
+            levelTitlePanelText.fontSize = 12;
 
             StartButton.gameObject.SetActive(true);
 
@@ -94,6 +94,7 @@ public class DialogManager : MonoBehaviour
         }
         levelTitlePanel.SetActive(false);
         Time.timeScale = 1f;
+        Dialogues.Instance.notdetected();
     }
 
     private void HideIntro()

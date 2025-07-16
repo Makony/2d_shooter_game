@@ -248,6 +248,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &650591825
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: boxDestroyClip
+      value: 
+      objectReference: {fileID: 8300000, guid: fdb381df91c440947bc59fb0662e8da8, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: enemyDeathClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b2c86b7154f7f7a4fa7f68a5d29f8053, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: buttonHoverClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0ab87fd3944ec484d8431a537eabe2d4, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: playerDeathClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 945af809631aa43489641db28e4c5ded, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: buttonsClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9bd5498619f8b8f4ba7956dddd1b2c1a, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: healingSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5e0bba37b1a8b03459a77bad07a51360, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: teleportSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 58a998c4cf40f1b48b747800b56e6555, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: bigButtonsClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 86216026cfc851e45957b0b2412609d1, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: littleButtonsClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9bd5498619f8b8f4ba7956dddd1b2c1a, type: 3}
+    - target: {fileID: 4724163204073192488, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_Volume
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 221.3019
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 219.1507
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.4385662
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9216248632417966197, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: m_Name
+      value: SoundManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
 --- !u!1 &793184779
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,6 +567,30 @@ MonoBehaviour:
       - m_Target: {fileID: 1793967175}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1793967175}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: BigButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1793967175}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: HoverSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -818,6 +939,30 @@ MonoBehaviour:
       - m_Target: {fileID: 1793967175}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: OnStartClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1793967175}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: BigButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1793967175}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: HoverSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1263,3 +1408,4 @@ SceneRoots:
   - {fileID: 1793967179}
   - {fileID: 1168798333}
   - {fileID: 37466086}
+  - {fileID: 650591825}

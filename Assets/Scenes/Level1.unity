@@ -770,7 +770,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 501725503}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 554735370}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayLittleButtonClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &501725503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -809,6 +821,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 501725500}
   m_CullTransparentMesh: 1
+--- !u!114 &554735370 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+  m_PrefabInstance: {fileID: 8796252112635215896}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b2c71d4326d484797e8a1d140c5067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &610685395
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2557,6 +2580,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: arrowShootClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d98b576935ea93a43914509fae86f882, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: boxDestroyClip
+      value: 
+      objectReference: {fileID: 8300000, guid: fdb381df91c440947bc59fb0662e8da8, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: enemyDeathClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b2c86b7154f7f7a4fa7f68a5d29f8053, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: buttonHoverClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0ab87fd3944ec484d8431a537eabe2d4, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: playerDeathClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 945af809631aa43489641db28e4c5ded, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: buttonsClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9bd5498619f8b8f4ba7956dddd1b2c1a, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: healingSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5e0bba37b1a8b03459a77bad07a51360, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: teleportSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 58a998c4cf40f1b48b747800b56e6555, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: bigButtonsClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 86216026cfc851e45957b0b2412609d1, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: littleButtonsClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9bd5498619f8b8f4ba7956dddd1b2c1a, type: 3}
     - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
       propertyPath: m_LocalPosition.x
       value: 221.3019

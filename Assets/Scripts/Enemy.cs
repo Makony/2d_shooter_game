@@ -374,6 +374,7 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        SoundManager.Instance.EnemyDeathSound();
         OnDeath?.Invoke();
         animator.enabled = false;
 

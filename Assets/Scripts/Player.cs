@@ -164,7 +164,9 @@ public class Player : MonoBehaviour
         if(Lifes > 0){ //don't die if the player has some lifes left
             Lifes--;
             Health = MaxHP;
-            if(LevelManager.Instance){
+            SoundManager.Instance.HealingSound();
+            if (LevelManager.Instance)
+            {
                 LevelManager.Instance.HPstat();
                 LevelManager.Instance.LifeStat();
             }

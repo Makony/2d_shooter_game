@@ -56,7 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "LastUpdate.sln",
+    "dotnet.defaultSolution": "Miniproject.sln",
     "omnisharp.dotnetPath": "C:\\Program Files\\dotnet\\sdk",
     "omnisharp.useModernNet": true
 }

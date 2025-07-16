@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 // Class for managing the main menu and starting the game
 public class MainMenuManager : MonoBehaviour
@@ -14,4 +16,33 @@ public class MainMenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void BigButtonClick()
+    {
+        SoundManager.Instance.ButtonClickSound();
+    }
+
+    public void HoverSound()
+    {
+        SoundManager.Instance.ButtonHoverSound();
+    }
+
+    private void AddHoverSound(GameObject buttonObject)
+    {
+        EventTrigger trigger = buttonObject.GetComponent<EventTrigger>();
+        if (trigger == null)
+            trigger = buttonObject.AddComponent<EventTrigger>();
+
+        EventTrigger.Entry entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerEnter
+        };
+        entry.callback.AddListener((eventData) =>
+        {
+            SoundManager.Instance.ButtonHoverSound();
+        });
+
+        trigger.triggers.Add(entry);
+    }
 }
+

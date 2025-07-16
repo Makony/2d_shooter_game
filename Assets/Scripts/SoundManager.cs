@@ -4,10 +4,13 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
+
     [Header("Audio Sources")]
     public AudioSource sfxSource;
     public AudioSource chaseMusicSource;
     public AudioSource backgroundMusicSource;
+
+    private float SFXvolume;
 
     [Header("Audio Clips")]
     public AudioClip playerFootstepClip;
@@ -20,9 +23,13 @@ public class SoundManager : MonoBehaviour
     public AudioClip playerDeathClip;
     public AudioClip enemyDeathClip;
     public AudioClip boxDestroyClip;
-    public AudioClip buttonsClickClip;
+    public AudioClip bigButtonsClickClip;
+    public AudioClip littleButtonsClickClip;
     public AudioClip backgroundMusicClip;
     public AudioClip arrowShootClip;
+    public AudioClip healingSoundClip;
+    public AudioClip teleportSoundClip;
+    public AudioClip buttonHoverClip;
 
     private void Awake()
     {
@@ -105,11 +112,42 @@ public class SoundManager : MonoBehaviour
 
     public void ButtonClickSound()
     {
-        sfxSource.PlayOneShot(buttonsClickClip);
+        sfxSource.PlayOneShot(bigButtonsClickClip);
     }
 
     public void ArrowShootSound()
     {
         sfxSource.PlayOneShot(arrowShootClip);
+    }
+
+    public void HealingSound()
+    {
+        sfxSource.PlayOneShot(healingSoundClip);
+    }
+
+    public void TeleportSound()
+    {
+        sfxSource.PlayOneShot(teleportSoundClip);
+    }
+
+    public void ButtonHoverSound()
+    {
+        sfxSource.PlayOneShot(buttonHoverClip);
+    }
+
+    public void PlayLittleButtonClickSound()
+    {
+        sfxSource.PlayOneShot(littleButtonsClickClip);
+    }
+
+    public void MuteSFX()
+    {
+        SFXvolume = sfxSource.volume;
+        sfxSource.volume = 0f;
+    }
+
+    public void UnmuteSFX()
+    {
+        sfxSource.volume = SFXvolume;
     }
 }

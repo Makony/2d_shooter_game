@@ -36,17 +36,17 @@ public class DialogManager : MonoBehaviour
     
     public void StartLevelIntro()
     {
+        SoundManager.Instance.MuteSFX();
         StartCoroutine(IntroSequence());
     }
 
     private IEnumerator IntroSequence()
     {
-
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(2f);
         levelTitlePanel.SetActive(true);
-
-        yield return new WaitForSeconds(2f);
-
-
+        yield return new WaitForSecondsRealtime(2f);
+        
         string message = "Soldier! You have been tasked to find the kill codes to turn off the rogue robots!\n\nFor now we drop you in an old castle. You have to find Robot's teleporter and go to to their basement where you find your objective. \n\n I may contact again. \n\n Be careful, though! These nasty robots could be hiding in ancient Boxes! Maybe you could find some useful items for your upcoming fight!\n\n Holding Tab could help.";
 
         levelTitlePanelText.text = message;
@@ -55,6 +55,7 @@ public class DialogManager : MonoBehaviour
         Time.timeScale = 0f;
 
         yield return new WaitForSecondsRealtime(3f);
+        SoundManager.Instance.UnmuteSFX();
         StartButton.gameObject.SetActive(true);
     }
 
@@ -134,6 +135,7 @@ public class DialogManager : MonoBehaviour
     private void OnContinuePressed()
     {
         continueButtonPressed = true;
+        SoundManager.Instance.PlayLittleButtonClickSound();
     }
 
     public void HideDialog()

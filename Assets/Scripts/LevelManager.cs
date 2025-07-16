@@ -1,14 +1,9 @@
 using System;
-using System.Runtime.Serialization;
-using NUnit.Framework;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
-using UnityEngine.InputSystem.LowLevel;
 
 // class for managing the level, including enemy count and rewards after killing all enemies
 public class LevelManager : MonoBehaviour

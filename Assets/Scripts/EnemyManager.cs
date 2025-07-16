@@ -1,4 +1,3 @@
-//using UnityEditor.U2D.Aseprite;
 using System;
 using System.Collections;
 using UnityEngine;

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections; // Required for Coroutines
 
 public class FinishLevel3 : MonoBehaviour

@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
-using System.Threading;
 using System;
 using UnityEngine.SceneManagement;
 

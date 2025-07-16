@@ -7,6 +7,7 @@ public class Dialogues : MonoBehaviour
     public static Dialogues Instance { get; private set; }
 
     private Boolean IsDetectedAfter = false;
+    private Boolean whatthefuckamIwrting = false;
 
     private void Awake()
     {
@@ -16,13 +17,15 @@ public class Dialogues : MonoBehaviour
 
     void Update()
     {
-        if (!IsDetectedAfter && LevelManager.Instance.IsDetected)
+        if (!whatthefuckamIwrting && !IsDetectedAfter && LevelManager.Instance.IsDetected && !whatthefuckamIwrting)
         {
+            whatthefuckamIwrting = true;
             string message = "ALARM?! They found you! \n Just... gotta lick my fingers clean... wait a second";
             DialogManager.Instance.ShowDialogWithTimer(message);
             StartCoroutine(SendDialogueCorCoroutine(10f));
 
             message = "Sending it to your goggles now \n any seconds now \n Turn them on. DON'T PANIC :)";
+            DialogManager.Instance.ShowDialogWithTimer(message);
             LevelManager.Instance.IsAllowedToSeePath = true;
         }
     }
@@ -30,6 +33,12 @@ public class Dialogues : MonoBehaviour
     public void notdetected()
     {
         StartCoroutine(SendDialogueCorCoroutine(60f));
+    }
+
+    private IEnumerator SendDialogueCorCoroutine(float t)
+    {
+        yield return new WaitForSeconds(t);
+
         if (!LevelManager.Instance.IsDetected)
         {
             IsDetectedAfter = true;
@@ -37,10 +46,5 @@ public class Dialogues : MonoBehaviour
             DialogManager.Instance.ShowDialogWithTimer(message);
             LevelManager.Instance.IsAllowedToSeePath = true;
         }
-    }
-
-    private IEnumerator SendDialogueCorCoroutine(float t)
-    {
-        yield return new WaitForSeconds(t);
     }
 }

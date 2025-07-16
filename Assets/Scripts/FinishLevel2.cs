@@ -1,19 +1,27 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class FinishLevel2 : MonoBehaviour
 {
-    // This is called when another collider enters the trigger zone.
+    private bool hasBeenTriggered = false;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if it was the player.
+        if (hasBeenTriggered) return;
         if (other.CompareTag("Player"))
         {
-            // Tell the current LevelManager to save the player's stats.
-            LevelManager.Instance.SavePlayerStats();
-
-            // Load Level 3.
-            SceneManager.LoadScene("Level3");
+            hasBeenTriggered = true;
+            StartCoroutine(LoadNextLevelSequence());
         }
+    }
+    
+    private IEnumerator LoadNextLevelSequence()
+    {
+        LevelManager.Instance.SavePlayerStats();
+        SoundManager.Instance.ButtonClickSound();
+        
+        yield return new WaitForSeconds(2f);
+        
+       SceneManager.LoadScene("Level3");
     }
 }

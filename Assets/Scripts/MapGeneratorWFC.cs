@@ -7,8 +7,8 @@ public class MapGeneratorWFC : MonoBehaviour
 {
     public const int TILE_WIDTH = 20;
     public const int TILE_HEIGHT = 20;
-    public static int GRID_WIDTH = 6;
-    public static int GRID_HEIGHT = 6;
+    public static int GRID_WIDTH = 8;
+    public static int GRID_HEIGHT = 8;
     public enum TDirection
     {
         North,

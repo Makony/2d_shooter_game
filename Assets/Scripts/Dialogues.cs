@@ -17,18 +17,27 @@ public class Dialogues : MonoBehaviour
 
     void Update()
     {
-        if (!whatthefuckamIwrting && !IsDetectedAfter && LevelManager.Instance.IsDetected && !whatthefuckamIwrting)
+        if (!whatthefuckamIwrting && !IsDetectedAfter && LevelManager.Instance.IsDetected)
         {
             whatthefuckamIwrting = true;
-            string message = "ALARM?! They found you! \n Just... gotta lick my fingers clean... wait a second";
-            DialogManager.Instance.ShowDialogWithTimer(message);
-            StartCoroutine(SendDialogueCorCoroutine(10f));
-
-            message = "Sending it to your goggles now \n any seconds now \n Turn them on. DON'T PANIC :)";
-            DialogManager.Instance.ShowDialogWithTimer(message);
-            LevelManager.Instance.IsAllowedToSeePath = true;
+            StartCoroutine(AlarmDialogueSequence());
         }
     }
+
+    private IEnumerator AlarmDialogueSequence()
+{
+    yield return new WaitForSeconds(5f);
+    // --- Step 1: Show the first message and wait ---
+        string message = "ALARM?! They found you! \n Just... gotta lick my fingers clean... wait a second";
+    DialogManager.Instance.ShowDialogWithTimer(message, 5f); // Show this message for 5 seconds
+
+    yield return new WaitForSeconds(5f); // Wait for 5 seconds before proceeding
+
+    message = "Sending it to your goggles now \n any seconds now \n Turn them on. DON'T PANIC :)";
+    DialogManager.Instance.ShowDialogWithTimer(message, 10f); 
+    LevelManager.Instance.IsAllowedToSeePath = true;
+}
+
 
     public void notdetected()
     {

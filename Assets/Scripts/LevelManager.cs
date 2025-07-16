@@ -65,8 +65,10 @@ public class LevelManager : MonoBehaviour
 
     public Boolean IsDetected = false;
 
+    public Boolean HasAllKillCodes = false;
+    public int RemainingTime = 90;
 
-
+    private GameObject allLights;
 
 
 
@@ -82,6 +84,15 @@ public class LevelManager : MonoBehaviour
         alarmAudioSource = GetComponent<AudioSource>();
         if (alarmAudioSource == null) { alarmAudioSource = gameObject.AddComponent<AudioSource>(); }
     }
+
+    void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "Level3")
+        {
+            StartLevel3();
+        }
+    }
+
 
     public void Update()
     {
@@ -214,13 +225,92 @@ public class LevelManager : MonoBehaviour
 
         enemiesKilled = 0;
         EnemyManager.Instance.Getpoints(); // Get waypoints and spawnpoints
-        EnemyManager.Instance.MakeEnemies(10f, 0.8f); // Create enemies
+        EnemyManager.Instance.MakeEnemies(5f, 0.7f); // Create enemies
 
         CameraControll.Instance.SetPlayer(player.transform); // Set the player for the camera to follow
         DialogManager.Instance.StartLevelIntro2();
 
         OpenDoorForNextLevel();
     }
+
+    public void StartLevel3()
+    {
+        GridManager.Instance.CreateGridFromTilemaps(GlobalWallTilemap.Instance.GetComponent<Tilemap>(), GlobalFloorTilemap.Instance.GetComponent<Tilemap>());
+        GameObject playerPrefab = Resources.Load<GameObject>("Prefabs/Player/Player");
+        Vector3 roomCenter = FinishLevel3.Instance.transform.position;
+        player = Instantiate(playerPrefab, roomCenter, Quaternion.identity);
+        player.TryGetComponent<Player>(out playerStats);
+        player.TryGetComponent<PlayerAttack>(out playerAttackStats);
+        LoadPlayerStats();
+
+        Transform EnemyManagerr = transform.Find("EnemyManager");
+        totalEnemies = EnemyManagerr ? EnemyManagerr.childCount : 0;
+        remainingEnemies = totalEnemies;
+        //get stat screens
+        statScreen.transform.Find("LifeText").TryGetComponent<TextMeshProUGUI>(out lifetext);
+        statScreen.transform.Find("HPText").TryGetComponent<TextMeshProUGUI>(out hptext);
+        statScreen.transform.Find("HealthBarGreen").TryGetComponent<Image>(out healthBar);
+        statScreen.transform.Find("AmmoText").TryGetComponent<TextMeshProUGUI>(out ammotext);
+        statScreen.transform.Find("EnemyIcon").TryGetComponent<Image>(out enemyIcon);
+        enemyIcon.enabled = false;
+        statScreen.transform.Find("EnemyText").TryGetComponent<TextMeshProUGUI>(out enemytext);
+        enemytext.enabled = false;
+        statScreen.transform.Find("NotificationText").TryGetComponent<TextMeshProUGUI>(out notificationText);
+        ammoIcon1 = statScreen.transform.Find("AmmoIcon1");
+        ammoIcon2 = statScreen.transform.Find("AmmoIcon2");
+        gameOverScreen.transform.Find("ScoreText").TryGetComponent<TextMeshProUGUI>(out scoretext);
+        statScreen.transform.Find("KeyNumber").TryGetComponent<TextMeshProUGUI>(out KeyNumber);
+        statScreen.transform.Find("KeyMessage").TryGetComponent<TextMeshProUGUI>(out KeyText);
+        KeyText.enabled = false;
+        KeyNumber.enabled = false;
+
+
+        UpdateAllStats();   //update them
+
+        enemiesKilled = 0;
+        EnemyManager.Instance.Getpoints(); // Get waypoints and spawnpoints
+        // EnemyManager.Instance.MakeEnemies(10f, 1f); // Create enemies
+        ObjectGenerator.Instance.GenerateKillCode();
+        CameraControll.Instance.SetPlayer(player.transform); // Set the player for the camera to follow
+        DialogManager.Instance.StartLevelIntro3();
+    }
+
+
+
+
+    public void YouAreDoomeD()
+    {
+        DialogManager.Instance.ShowDialogWithTimer("Run as long as you can until the portal comes back. HOLD YOURSELF TOGETHER", 6f);
+        InvokeRepeating(nameof(SpawnAlarmEnemies), 0f, 2.5f);
+        KeyText.enabled = true;
+        KeyNumber.enabled = true;
+        KeyText.text = "REMAINING TIME:";
+        //KeyText.alignment = TextAlignmentOptions.Left;
+        KeyNumber.text = RemainingTime.ToString();
+        allLights = GameObject.Find("AllLights");
+        StartCoroutine(DisplayRemainingTime());
+    }
+
+    private System.Collections.IEnumerator DisplayRemainingTime()
+    {
+        while (RemainingTime > 0)
+        {
+            KeyNumber.text = RemainingTime.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+            RemainingTime--;
+            if (RemainingTime <= 30)
+            {
+                allLights.SetActive(false);
+            }
+        }
+        KeyNumber.text = "0";
+        KeyNumber.color = Color.red;
+
+        DialogManager.Instance.ShowDialog("PORTAL IS READY. RUN!!!");
+    }
+
+
+
 
 
     public void TriggerGlobalAlarm()
@@ -229,6 +319,7 @@ public class LevelManager : MonoBehaviour
         if (alarmAudioSource != null && !alarmAudioSource.isPlaying)
         {
             alarmAudioSource.clip = globalAlarmSound;
+            alarmAudioSource.volume = 0.8f;
             alarmAudioSource.loop = true;
             alarmAudioSource.Play();
             InvokeRepeating(nameof(SpawnAlarmEnemies), 0f, 3f);
@@ -385,7 +476,14 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-
+    public void KillCodeStat()
+    {
+        if (HasAllKillCodes)
+        {
+            string message = "You found it. Now let's go back. 100% nothing will happen. \n I never jinx :D";
+            DialogManager.Instance.ShowDialog(message);
+        }
+    }
 
 
 
@@ -394,7 +492,7 @@ public class LevelManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Level1") return;
         if (SceneManager.GetActiveScene().name == "Level2") return;
-
+        if (SceneManager.GetActiveScene().name == "Level3") return;
         enemiesKilled++;
         remainingEnemies--;
         EnemyStat();

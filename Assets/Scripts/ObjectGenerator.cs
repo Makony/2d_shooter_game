@@ -136,9 +136,15 @@ public class ObjectGenerator : MonoBehaviour
             float random = UnityEngine.Random.Range(0f, 1f);
             if (random < chance)
             {
-                Instantiate(LightPrefab, child.transform.position + new Vector3(10f,10f), Quaternion.identity);
+                Instantiate(LightPrefab, child.transform.position + new Vector3(10f, 10f), Quaternion.identity);
             }
         }
+    }
 
+    public void GenerateKillCode()
+    {
+        GameObject KillCode = Resources.Load<GameObject>("Prefabs/KillCode/KillCode");
+        int randomNumber = Random.Range(0, 3);
+        Instantiate(KillCode, EnemyManager.Instance.spawnpoints[randomNumber], Quaternion.identity);
     }
 }

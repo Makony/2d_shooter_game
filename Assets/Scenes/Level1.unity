@@ -2079,7 +2079,7 @@ PrefabInstance:
     - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
       propertyPath: arrowShootClip
       value: 
-      objectReference: {fileID: 8300000, guid: d98b576935ea93a43914509fae86f882, type: 3}
+      objectReference: {fileID: 8300000, guid: 6716e2683901f7f4dbf6173a8ad927ef, type: 3}
     - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
       propertyPath: boxDestroyClip
       value: 

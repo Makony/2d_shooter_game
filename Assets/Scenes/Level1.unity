@@ -2074,7 +2074,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1546258968553145018, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
       propertyPath: m_Volume
-      value: 0.7
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
       propertyPath: arrowShootClip
@@ -2083,7 +2083,7 @@ PrefabInstance:
     - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
       propertyPath: boxDestroyClip
       value: 
-      objectReference: {fileID: 8300000, guid: fdb381df91c440947bc59fb0662e8da8, type: 3}
+      objectReference: {fileID: 8300000, guid: 6fdd3ac61bdb7b348ad128f72105c8dc, type: 3}
     - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
       propertyPath: enemyDeathClip
       value: 

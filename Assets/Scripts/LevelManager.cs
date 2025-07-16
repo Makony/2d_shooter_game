@@ -280,6 +280,10 @@ public class LevelManager : MonoBehaviour
 
     public void YouAreDoomeD()
     {
+        SoundManager.Instance.backgroundMusicSource.enabled = false;
+        SoundManager.Instance.chaseMusicSource.enabled = true;
+        SoundManager.Instance.chaseMusicSource.mute = false;
+        SoundManager.Instance.chaseMusicSource.Play();
         DialogManager.Instance.ShowDialogWithTimer("Run as long as you can until the portal comes back. HOLD YOURSELF TOGETHER", 6f);
         InvokeRepeating(nameof(SpawnAlarmEnemies), 0f, 2.5f);
         KeyText.enabled = true;

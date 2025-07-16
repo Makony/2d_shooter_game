@@ -11,6 +11,14 @@ TagManager:
   - BulletFriendly
   - Trap
   - Bow
+  - Box
+  - Key1
+  - Key2
+  - Key3
+  - Key4
+  - StartingRoom
+  - CCTV
+  - Arrow
   layers:
   - Default
   - TransparentFX

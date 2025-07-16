@@ -61,4 +61,27 @@ public class Grid
         }
         return neighbors;
     }
+
+    public List<Node> GetAllNeighbors(Node node)
+    {
+        List<Node> neighbors = new List<Node>();
+        int[,] directions = {
+            {-1, 0}, {1, 0}, {0, -1}, {0, 1},
+            {-1, -1}, {-1, 1}, {1, -1}, {1, 1}
+        };
+
+        for (int i = 0; i < directions.GetLength(0); i++)
+        {
+            int nx = node.GetX() + directions[i, 0];
+            int ny = node.GetY() + directions[i, 1];
+            
+            // Add the neighbor regardless of walkability, as long as it's on the grid.
+            Node neighbor = GetNode(nx, ny);
+            if (neighbor != null)
+            {
+                neighbors.Add(neighbor);
+            }
+        }
+        return neighbors;
+    }
 }

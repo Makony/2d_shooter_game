@@ -7,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
     // Method that starts the game after clicking "play"
     public void OnStartClick()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Level1");
     }
 
     public void Quit()

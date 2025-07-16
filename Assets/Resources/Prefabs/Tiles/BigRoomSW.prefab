@@ -5079,7 +5079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8658407511561434722, guid: 1673993f22b48d144b253444a70ba698, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Bow
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5145,7 +5145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8658407511561434722, guid: 1673993f22b48d144b253444a70ba698, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Bow
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5211,7 +5211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8658407511561434722, guid: 1673993f22b48d144b253444a70ba698, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Bow
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5277,7 +5277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8658407511561434722, guid: 1673993f22b48d144b253444a70ba698, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Bow
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

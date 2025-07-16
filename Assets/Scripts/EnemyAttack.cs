@@ -6,7 +6,7 @@ public class EnemyAttack : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform Gun;
-    public Transform BulletManager; //to make it clean if we are spawning 100+ bullets at a time. Basically all bullets are under That now
+    public Transform bulletManager; //to make it clean if we are spawning 100+ bullets at a time. Basically all bullets are under That now
 
 
 
@@ -21,7 +21,7 @@ public class EnemyAttack : MonoBehaviour
     public float MaxAmmo = 10f;                //How much bullets are left before reloading
     public float RemainingAmmo;
     public float AccuracyErrorAngle = 10f;   //x Degree to left and x Degree to right of where you are aiming at. Example: 10 means 20 Degree Deviation
-    public float ReloadTime = 1f;            //05.05. A: How long it takes to Reload
+    public float ReloadTime = 2f;            //05.05. A: How long it takes to Reload
     public Boolean isReloading = false;
     //public Boolean hasShootingModes = true;    //05.05. A: example burst fire (3 bullets per shot) for pistols for example
     public Boolean isShootingAllowed = false;
@@ -33,7 +33,7 @@ public class EnemyAttack : MonoBehaviour
     void Start()
     {
         Gun = transform.Find("Gun");
-        BulletManager = GameObject.Find("BulletManager").transform;
+        bulletManager = BulletManager.Instance.transform;
         animator = GetComponent<Animator>();
         RemainingAmmo = MaxAmmo;
     }
@@ -70,7 +70,7 @@ public class EnemyAttack : MonoBehaviour
         animator.SetBool("isShooting", false);
         isReloading = true;
         animator.SetBool("isReloading", true);
-        yield return new WaitForSeconds(1f); // Wait for 1 second
+        yield return new WaitForSeconds(2f); // Wait for 1 second
         animator.SetBool("isReloading", false);
         RemainingAmmo = MaxAmmo;
         isReloading = false;
@@ -98,7 +98,7 @@ public class EnemyAttack : MonoBehaviour
             //Calculate a shooting error angle, change the rotation of the bullet (it comes out of the Gun so change that) THEN make the bullet
             float fireAngleERR = UnityEngine.Random.Range(-AccuracyErrorAngle, AccuracyErrorAngle);
             Quaternion newFireDirection = Gun.rotation * Quaternion.Euler(0f, 0f, fireAngleERR);
-            GameObject bullet = Instantiate(bulletPrefab, Gun.position, newFireDirection.normalized, BulletManager);   //BulletManager becomes the parent here. To make everything lcean in left side of Unity
+            GameObject bullet = Instantiate(bulletPrefab, Gun.position, newFireDirection.normalized, bulletManager);   //BulletManager becomes the parent here. To make everything lcean in left side of Unity
             if (bullet.TryGetComponent<Bullet>(out Bullet bulletStats))
             {
                 bulletStats.bulletSpeed = BulletSpeed;

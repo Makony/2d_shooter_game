@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform Gun;
-    public Transform BulletManager; //to make it clean if we are spawning 100+ bullets at a time. Basically all bullets are under That now
-    public GameObject LevelManager;
+    public Transform bulletManager; //to make it clean if we are spawning 100+ bullets at a time. Basically all bullets are under That now
     private LevelManager levelManager;
 
     public Boolean isContinuesFire = false;   //false means something like a shotgun/pistol. true means rifle, smg and etc.
@@ -32,9 +32,10 @@ public class PlayerAttack : MonoBehaviour
     {
         Gun = transform.Find("Gun");
         RemainingAmmo = MaxAmmo;
-        LevelManager.TryGetComponent<LevelManager>(out levelManager);
+        levelManager = LevelManager.Instance;
         AccuracyErrorAngle /= isContinuesFire ? 1 : 2;
         animator = GetComponent<Animator>();
+        bulletManager = BulletManager.Instance.transform;
     }
 
     void Update()
@@ -43,7 +44,6 @@ public class PlayerAttack : MonoBehaviour
         {
             isContinuesFire = !isContinuesFire;
             AccuracyErrorAngle /= isContinuesFire ? (float)0.5 : 2;
-            Debug.Log(AccuracyErrorAngle);
             levelManager.AmmoIcon(isContinuesFire);
         }
         if (Input.GetKeyDown(KeyCode.R)) { Reload(); }
@@ -103,7 +103,6 @@ public class PlayerAttack : MonoBehaviour
 
     void Shoot()
     {
-        Debug.Log("shooting HAS STARTED");
         //check if bullets and gun are assigned
         if (bulletPrefab != null && Gun != null)
         {
@@ -121,7 +120,7 @@ public class PlayerAttack : MonoBehaviour
             //Calculate a shooting error angle, change the rotation of the bullet (it comes out of the Gun so change that) THEN make the bullet
             float fireAngleERR = UnityEngine.Random.Range(-AccuracyErrorAngle, AccuracyErrorAngle);
             Quaternion newFireDirection = Gun.rotation * Quaternion.Euler(0f, 0f, fireAngleERR);
-            GameObject bullet = Instantiate(bulletPrefab, Gun.position, newFireDirection.normalized, BulletManager);   //BulletManager becomes the parent here. To make everything lcean in left side of Unity
+            GameObject bullet = Instantiate(bulletPrefab, Gun.position, newFireDirection.normalized, bulletManager);   //BulletManager becomes the parent here. To make everything lcean in left side of Unity
             
             if (bullet.TryGetComponent<Bullet>(out Bullet bulletStats))
             {

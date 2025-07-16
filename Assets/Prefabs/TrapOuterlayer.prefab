@@ -225,3 +225,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078c06b4df25ea64f8ac807764d75947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggerRange: 25

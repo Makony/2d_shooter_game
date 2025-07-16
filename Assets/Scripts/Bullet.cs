@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     public float lifetime = 2f;
     private Rigidbody2D rb;
 
+    private bool isDestroyed = false;
 
     void Start()
     {
@@ -41,7 +42,7 @@ public class Bullet : MonoBehaviour
             if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
                 if (enemy.isDead) return; //M: if enemy is already dead, don't call the function for multiple collisions => it thinks two enemies were killed instead of one
-                enemy.Health -= bulletDamage / enemy.Armour;
+                enemy.Health -= bulletDamage;
 
                 if (enemy.Health <= 0)
                 {
@@ -78,7 +79,7 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        //Bullet gets destroyed anyway no matter if stats is null or not. This is why I deleted the "else" part
+
         Destroy(gameObject);
     }
 }

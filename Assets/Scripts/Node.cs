@@ -50,4 +50,11 @@ public class Node : IComparable<Node>
         {
             return f.CompareTo(other.f);
         }
+
+    public void ResetPathData()
+    {
+        SetParent(null);
+        SetG(0);
+        SetF(0);
+    }
 }

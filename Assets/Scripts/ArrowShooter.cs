@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ArrowShooter : MonoBehaviour
 {
@@ -11,16 +12,32 @@ public class ArrowShooter : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
+
     public void ShootArrow(Vector2 targetPosition)
     {
-        animator.SetBool("isShooting", true);
+        if (animator != null)
+        {
+            animator.SetBool("IsShooting", true);
+        }
+
         GameObject arrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
 
         Vector2 shootDirection = (targetPosition - (Vector2)transform.position).normalized;
         arrow.GetComponent<Rigidbody2D>().linearVelocity = shootDirection * arrowSpeed;
 
         float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
-        arrow.transform.rotation = Quaternion.Euler(0, 0, angle);
-        animator.SetBool("isShooting", false);
+        arrow.transform.rotation = Quaternion.Euler(0, 0, angle + 180f);
+
+        StartCoroutine(ResetShootingAnimation());
+    }
+    
+     private IEnumerator ResetShootingAnimation()
+    {
+        yield return new WaitForSeconds(1f);
+
+        if (animator != null)
+        {
+            animator.SetBool("IsShooting", false);
+        }
     }
 }

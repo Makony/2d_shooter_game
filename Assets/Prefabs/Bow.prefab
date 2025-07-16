@@ -124,4 +124,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 2565908641064062304, guid: b5ddfc69a7f1bc04ebc534359d463b35, type: 3}
-  arrowSpeed: 3
+  arrowSpeed: 7.5

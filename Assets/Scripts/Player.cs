@@ -2,6 +2,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
@@ -36,16 +37,19 @@ public class Player : MonoBehaviour
     //for animation and stuff
     private Animator animator;
 
+    private Light2D myLight;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();   //using rigidbody to get a non buggy collision 
+        myLight = GetComponentInChildren<Light2D>();
     }
-   
+
     void Update()
     {
-        if(isInTrap && Time.time >= lastDamageTime + trapDmgTimer) //if inside the trap do dmg every second
+        if (isInTrap && Time.time >= lastDamageTime + trapDmgTimer) //if inside the trap do dmg every second
         {
             GetTrapDamage();
             lastDamageTime = Time.time; // Reset the timer
@@ -57,7 +61,7 @@ public class Player : MonoBehaviour
 
 
         //to tell animator if we are runnig or not
-        if (moveHorizontal == 0 && moveVertical ==0)
+        if (moveHorizontal == 0 && moveVertical == 0)
         {
             animator.SetBool("isRunning", false);
         }
@@ -68,6 +72,11 @@ public class Player : MonoBehaviour
 
         //getting mousePosition
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            myLight.enabled = !myLight.enabled;
+        }
     }
 
     void FixedUpdate()

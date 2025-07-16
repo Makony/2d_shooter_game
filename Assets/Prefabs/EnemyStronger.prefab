@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2112037190807594260, guid: 5d3632da8ea59714b9f1d3581aea5ab5, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2112037190807594260, guid: 5d3632da8ea59714b9f1d3581aea5ab5, type: 3}
       propertyPath: m_Color.g
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2112037190807594260, guid: 5d3632da8ea59714b9f1d3581aea5ab5, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5190449780886631021, guid: 5d3632da8ea59714b9f1d3581aea5ab5, type: 3}
       propertyPath: m_Name
@@ -63,6 +63,14 @@ PrefabInstance:
     - target: {fileID: 7466545013079297312, guid: 5d3632da8ea59714b9f1d3581aea5ab5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8319806146267566220, guid: 5d3632da8ea59714b9f1d3581aea5ab5, type: 3}
+      propertyPath: IsBuffNeeded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8319806146267566220, guid: 5d3632da8ea59714b9f1d3581aea5ab5, type: 3}
+      propertyPath: ViewDistance
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour
 {
@@ -30,7 +31,11 @@ public class MapManager : MonoBehaviour
                 {
                     WaypointManager.Instance.AddWaypoint(child.transform.position + new Vector3(10f, 10f, 0f));
                 }
+            }
 
+            if (child.name.Contains("FinishingRoom") && SceneManager.GetActiveScene().name == "Level2")
+            {
+                CombineTileMaps(child, new Vector2(child.position.x, child.position.y));
             }
 
 
@@ -40,6 +45,11 @@ public class MapManager : MonoBehaviour
                 if (grandchild.CompareTag("Bow"))
                 {
                     BowTrapsManager.Instance.AddBow(child.gameObject);
+                }
+
+                if (grandchild.CompareTag("CCTV"))
+                {
+                    CCTVManager.Instance.AddCCTV(grandchild.gameObject);
                 }
             }
         }

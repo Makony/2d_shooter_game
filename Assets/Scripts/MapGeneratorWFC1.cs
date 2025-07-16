@@ -1,18 +1,14 @@
-using UnityEditor;
 using UnityEngine;
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Collections;
-using NUnit.Framework.Internal;
-using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class MapGeneratorWFC1 : MonoBehaviour
 {
     public const int TILE_WIDTH = 20;
     public const int TILE_HEIGHT = 20;
-    public static int GRID_WIDTH = 14;
-    public static int GRID_HEIGHT = 14;
+    public static int GRID_WIDTH = 25;
+    public static int GRID_HEIGHT = 25;
     public enum TDirection
     {
         North,
@@ -321,7 +317,7 @@ public class MapGeneratorWFC1 : MonoBehaviour
     };
 
     public static Dictionary<string, int> weights = new Dictionary<string, int> {
-        { "StartingRoom", 10 },
+        { "StartingRoom", 0 },
         { "FinishingRoom", 0 },
 
         { "CrossingPath", 2 },
@@ -343,21 +339,21 @@ public class MapGeneratorWFC1 : MonoBehaviour
         { "SouthCap", 9 },
         { "WestCap", 9 },
 
-        { "BigRoomNW", 333 },
-        { "BigRoomNE", 333 },
-        { "BigRoomSW", 333 },
-        { "BigRoomSE", 333 },
-        { "BigRoomDoorNEE", 333 },
-        { "BigRoomDoorSWW", 333 },
-        { "BigRoomN", 333 },
-        { "BigRoomE", 333 },
-        { "BigRoomS", 333 },
-        { "BigRoomW", 333 },
-        { "BigRoomCenter", 333 },
-        { "BigRoomInnerNE", 333 },
-        { "BigRoomInnerSE", 333 },
-        { "BigRoomInnerSW", 333 },
-        { "BigRoomInnerNW", 333 },
+        { "BigRoomNW", 2 },
+        { "BigRoomNE", 2 },
+        { "BigRoomSW", 2 },
+        { "BigRoomSE", 2 },
+        { "BigRoomDoorNEE", 2 },
+        { "BigRoomDoorSWW", 2 },
+        { "BigRoomN", 2 },
+        { "BigRoomE", 2 },
+        { "BigRoomS", 2 },
+        { "BigRoomW", 2 },
+        { "BigRoomCenter", 2 },
+        { "BigRoomInnerNE", 2 },
+        { "BigRoomInnerSE", 2 },
+        { "BigRoomInnerSW", 2 },
+        { "BigRoomInnerNW", 2 },
     };
 
     public class Slot
@@ -371,6 +367,7 @@ public class MapGeneratorWFC1 : MonoBehaviour
         public Slot()
         {
             possibilities.Remove("StartingRoom");
+            possibilities.Remove("FinishingRoom"); 
         }
         
         public Dictionary<TDirection, HashSet<TWall>> Constrain(TDirection direction, HashSet<TWall> walls)
@@ -444,10 +441,12 @@ public class MapGeneratorWFC1 : MonoBehaviour
     public Slot[,] grid = new Slot[GRID_WIDTH, GRID_HEIGHT];
 
     private (int x, int y) lastCapPlaced;
+    
+    private string lastCapPlacedName;
 
-    private (int x, int y) NextSlot() 
+    private (int x, int y) NextSlot()
     {
-        (int x, int y) minSlot = (-1,-1);
+        (int x, int y) minSlot = (-1, -1);
         int min = int.MaxValue;
 
         for (int x = 0; x < GRID_WIDTH; x++)
@@ -464,7 +463,7 @@ public class MapGeneratorWFC1 : MonoBehaviour
         }
 
         if (minSlot.x == -1)
-            grid[lastCapPlaced.x,lastCapPlaced.y].Set("FinishingRoom");
+            grid[lastCapPlaced.x, lastCapPlaced.y].Set("FinishingRoom");
 
         return minSlot;
     }
@@ -524,18 +523,17 @@ public class MapGeneratorWFC1 : MonoBehaviour
             Dictionary<TDirection, HashSet<TWall>> walls = n.Set(tile);
 
             if (tile.Contains("Cap"))
+            {
                 lastCapPlaced = (x, y);
-
+                lastCapPlacedName = (tile);
+            }
+            
             Collapse(x, y+1, TDirection.South, walls[TDirection.North]);
             Collapse(x+1, y, TDirection.West, walls[TDirection.East]);
             Collapse(x, y-1, TDirection.North, walls[TDirection.South]);
             Collapse(x-1, y, TDirection.East, walls[TDirection.West]);
         }
     }
-
-    public Tilemap GlobalWall;
-    public Tilemap GlobalFloor;
-    public bool IsFinished = false;
 
     public void StartWFC()
     {
@@ -547,29 +545,30 @@ public class MapGeneratorWFC1 : MonoBehaviour
 
                 if (x == 0) grid[x, y].Constrain(TDirection.West, new HashSet<TWall> { TWall.WWW });
                 if (y == 0) grid[x, y].Constrain(TDirection.South, new HashSet<TWall> { TWall.WWW });
-                if (x == GRID_WIDTH -1) grid[x, y].Constrain(TDirection.East, new HashSet<TWall> { TWall.WWW });
-                if (y == GRID_HEIGHT -1) grid[x, y].Constrain(TDirection.North, new HashSet<TWall> { TWall.WWW });
-                
+                if (x == GRID_WIDTH - 1) grid[x, y].Constrain(TDirection.East, new HashSet<TWall> { TWall.WWW });
+                if (y == GRID_HEIGHT - 1) grid[x, y].Constrain(TDirection.North, new HashSet<TWall> { TWall.WWW });
+
             }
         }
 
         int startX = Random.Range(1, GRID_WIDTH - 1);
         int startY = Random.Range(1, GRID_HEIGHT - 1);
-        
+
         Dictionary<TDirection, HashSet<TWall>> walls = grid[startX, startY].Set("StartingRoom", true);
 
-        Collapse(startX, startY+1, TDirection.South, walls[TDirection.North]);
-        Collapse(startX+1, startY, TDirection.West, walls[TDirection.East]);
-        Collapse(startX, startY-1, TDirection.North, walls[TDirection.South]);
-        Collapse(startX-1, startY, TDirection.East, walls[TDirection.West]);
+        Collapse(startX, startY + 1, TDirection.South, walls[TDirection.North]);
+        Collapse(startX + 1, startY, TDirection.West, walls[TDirection.East]);
+        Collapse(startX, startY - 1, TDirection.North, walls[TDirection.South]);
+        Collapse(startX - 1, startY, TDirection.East, walls[TDirection.West]);
 
         WFC();
-        
+
         GameObject[] tilePrefabs = Resources.LoadAll<GameObject>("Prefabs/Tiles2");
 
         for (int x = 0; x < GRID_WIDTH; x++)
         {
-            for (int y = 0; y < GRID_HEIGHT; y++) {
+            for (int y = 0; y < GRID_HEIGHT; y++)
+            {
                 Slot s = grid[x, y];
                 if (s.collapsed)
                 {
@@ -578,16 +577,30 @@ public class MapGeneratorWFC1 : MonoBehaviour
                     if (prefab != null)
                     {
                         Vector2 pos = new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT);
-                        Instantiate(prefab, pos, Quaternion.identity);
+                        Instantiate(prefab, pos, Quaternion.identity, mapManagerTransform);
                     }
                 }
             }
-        } 
+        }
+        LevelManager.Instance.doorDirection = lastCapPlacedName; 
     }
 
+    public Transform mapManagerTransform;
     void Start()
     {
+        if (mapManagerTransform == null)
+        {
+            mapManagerTransform = GameObject.Find("MapManager").transform;
+        }
         StartWFC();
-    }
 
-}
+        if (lastCapPlacedName == null)
+        {
+            Debug.LogWarning("No cap tile to replace with finishingroom. Restarting :U");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            return;
+        }
+
+        LevelManager.Instance.StartLevel2();
+    }
+}   

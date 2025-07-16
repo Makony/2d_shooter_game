@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject dialogScreen;
 
 
-    private GameObject player;
+    public GameObject player;
     private Player playerStats;
     private PlayerAttack playerAttackStats;
 
@@ -58,10 +58,10 @@ public class LevelManager : MonoBehaviour
 
 
     public AudioClip globalAlarmSound;
-    private AudioSource alarmAudioSource;
+    public AudioSource alarmAudioSource;
 
     public Boolean IsWFCFinished = false;
-
+    public Boolean IsAllowedToSeePath = false;
 
 
 
@@ -113,11 +113,15 @@ public class LevelManager : MonoBehaviour
         {
             controlsPanel.SetActive(false);
         }
-        
+
         if (Input.GetKeyDown(KeyCode.M))
         {
-            Debug.Log("toggle");
             dialogScreen.SetActive(!dialogScreen.activeSelf);
+            PathDrawer.Instance.CalculatePath();
+        }
+        if (IsAllowedToSeePath && Input.GetKeyDown(KeyCode.T))
+        {
+            PathDrawer.Instance.CalculatePath();
         }
     }
 
@@ -169,14 +173,12 @@ public class LevelManager : MonoBehaviour
         DialogManager.Instance.StartLevelIntro();
     }
 
-    private void StartLevel2()
+    public void StartLevel2()
     {
-        while (IsWFCFinished == false)
-        {
-            System.Threading.Thread.Sleep(1);
-        }
-
+        MapManager.Instance.GetTemplateInforomations();
         GridManager.Instance.CreateGridFromTilemaps(GlobalWallTilemap.Instance.GetComponent<Tilemap>(), GlobalFloorTilemap.Instance.GetComponent<Tilemap>());
+
+        ObjectGenerator.Instance.GenerateLight(0.5f);
 
         GameObject playerPrefab = Resources.Load<GameObject>("Prefabs/Player/Player");
         Vector3 roomCenter = MapManager.Instance.transform.Find("StartingRoom(Clone)").transform.position;
@@ -184,6 +186,7 @@ public class LevelManager : MonoBehaviour
         player = Instantiate(playerPrefab, roomCenter, Quaternion.identity);
         player.TryGetComponent<Player>(out playerStats);
         player.TryGetComponent<PlayerAttack>(out playerAttackStats);
+        LoadPlayerStats();
 
         Transform EnemyManagerr = transform.Find("EnemyManager");
         totalEnemies = EnemyManagerr ? EnemyManagerr.childCount : 0;
@@ -201,14 +204,20 @@ public class LevelManager : MonoBehaviour
         ammoIcon1 = statScreen.transform.Find("AmmoIcon1");
         ammoIcon2 = statScreen.transform.Find("AmmoIcon2");
         gameOverScreen.transform.Find("ScoreText").TryGetComponent<TextMeshProUGUI>(out scoretext);
+        statScreen.transform.Find("KeyNumber").TryGetComponent<TextMeshProUGUI>(out KeyNumber);
+        statScreen.transform.Find("KeyMessage").TryGetComponent<TextMeshProUGUI>(out KeyText);
+        KeyText.enabled = false;
+        KeyNumber.enabled = false;
+
 
         UpdateAllStats();   //update them
 
         enemiesKilled = 0;
         EnemyManager.Instance.Getpoints(); // Get waypoints and spawnpoints
-        //EnemyManager.Instance.MakeEnemies(1f, 1f); // Create enemies
+        EnemyManager.Instance.MakeEnemies(10f, 0.9f); // Create enemies
 
         CameraControll.Instance.SetPlayer(player.transform); // Set the player for the camera to follow
+        DialogManager.Instance.StartLevelIntro2();
 
         OpenDoorForNextLevel();
     }
@@ -497,7 +506,6 @@ public class LevelManager : MonoBehaviour
         // Mark that we have saved data.
         PlayerData.HasSavedData = true;
 
-        // Save all the relevant stats from the current player into the data container.
         PlayerData.MaxHP = playerStats.MaxHP;
         PlayerData.Speed = playerStats.speed;
         PlayerData.Lifes = playerStats.Lifes;
@@ -514,10 +522,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadPlayerStats()
     {
-        // Only load data if it was saved from a previous level.
         if (!PlayerData.HasSavedData) return;
 
-        // Apply the saved stats to the newly created player.
         playerStats.MaxHP = PlayerData.MaxHP;
         playerStats.speed = PlayerData.Speed;
         playerStats.Lifes = PlayerData.Lifes;
@@ -531,7 +537,7 @@ public class LevelManager : MonoBehaviour
         playerAttackStats.AccuracyErrorAngle = PlayerData.AccuracyErrorAngle;
         playerAttackStats.bulletCooldown = PlayerData.bulletCooldown;
 
-        // Important: Reset the health to the new max HP.
+        // Reset HP so it is not that hard.
         playerStats.Health = playerStats.MaxHP;
     }
 }

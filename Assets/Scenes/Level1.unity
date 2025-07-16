@@ -770,7 +770,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 501725503}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 664986038}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayLittleButtonClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &501725503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,6 +962,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &664986038 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+  m_PrefabInstance: {fileID: 8796252112635215896}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b2c71d4326d484797e8a1d140c5067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &767308579
 PrefabInstance:
   m_ObjectHideFlags: 0

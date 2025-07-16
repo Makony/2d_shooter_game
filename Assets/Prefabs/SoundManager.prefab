@@ -300,8 +300,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4e758d1155d0ede4ebcc8e2d8a0c25d2, type: 3}
-  m_Resource: {fileID: 8300000, guid: 4e758d1155d0ede4ebcc8e2d8a0c25d2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 76584504a4d3fd14bb6593d51c9cb5c7, type: 3}
+  m_Resource: {fileID: 8300000, guid: 76584504a4d3fd14bb6593d51c9cb5c7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -447,6 +447,10 @@ MonoBehaviour:
   playerDeathClip: {fileID: 0}
   enemyDeathClip: {fileID: 0}
   boxDestroyClip: {fileID: 0}
-  buttonsClickClip: {fileID: 0}
+  bigButtonsClickClip: {fileID: 0}
+  littleButtonsClickClip: {fileID: 0}
   backgroundMusicClip: {fileID: 8300000, guid: 4e758d1155d0ede4ebcc8e2d8a0c25d2, type: 3}
   arrowShootClip: {fileID: 8300000, guid: 6716e2683901f7f4dbf6173a8ad927ef, type: 3}
+  healingSoundClip: {fileID: 0}
+  teleportSoundClip: {fileID: 0}
+  buttonHoverClip: {fileID: 0}

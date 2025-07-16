@@ -21,6 +21,10 @@ public class DestructibleBox : MonoBehaviour
             didPlayerDestroy = true;
             Destroy(gameObject);
         }
+        else if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnDestroy()

@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using System.Threading;
 
 public class DialogManager : MonoBehaviour
 {
@@ -65,7 +66,19 @@ public class DialogManager : MonoBehaviour
     {
         dialogPanel.SetActive(true);
         dialogText.text = message;
+    }
 
+    public void ShowDialogWithTimer(string message, float Timer = 10f)
+    {
+        dialogPanel.SetActive(true);
+        dialogText.text = message;
+        StartCoroutine(ShowDialogCoroutine(Timer));
+    }
+
+    private IEnumerator ShowDialogCoroutine(float Timer)
+    {
+        yield return new WaitForSeconds(Timer);
+        HideDialog();
     }
 
     public void HideDialog()

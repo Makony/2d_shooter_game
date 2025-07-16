@@ -8,8 +8,8 @@ using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
-
-
+    
+    public event Action OnDeath;
 
     //For Enemy Stas
     public float Speed = 5f;
@@ -374,6 +374,7 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        OnDeath?.Invoke();
         animator.enabled = false;
 
         if (spriteRenderer != null && deathSprite != null)

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 
 public class ObjectGenerator : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class ObjectGenerator : MonoBehaviour
 
         PlaceCircleTraps();
 
-       // StartCoroutine(PlaceBoxesAndRegisterObstacles());
+        // StartCoroutine(PlaceBoxesAndRegisterObstacles());
         PlaceInitialBoxes();
 
         PlaceKeys();
@@ -108,7 +109,7 @@ public class ObjectGenerator : MonoBehaviour
 
         BoundsInt bounds = WalkableTilemap.cellBounds;
         HashSet<Vector3Int> occupiedPositions = new HashSet<Vector3Int>();
-    
+
         foreach (GameObject keyPrefab in keyPrefabs)
         {
             bool placed = false;
@@ -124,5 +125,20 @@ public class ObjectGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    public void GenerateLight(float chance)
+    {
+        GameObject LightPrefab = Resources.Load<GameObject>("Prefabs/Light/Light");
+        foreach (Transform child in MapManager.Instance.transform)
+        {
+            float random = UnityEngine.Random.Range(0f, 1f);
+            if (random < chance)
+            {
+                Instantiate(LightPrefab, child.transform.position + new Vector3(10f,10f), Quaternion.identity);
+            }
+        }
+
     }
 }

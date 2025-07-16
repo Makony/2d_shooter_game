@@ -1748,6 +1748,38 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: boxDestroyClip
+      value: 
+      objectReference: {fileID: 8300000, guid: fdb381df91c440947bc59fb0662e8da8, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: enemyDeathClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b2c86b7154f7f7a4fa7f68a5d29f8053, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: buttonHoverClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0ab87fd3944ec484d8431a537eabe2d4, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: playerDeathClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 945af809631aa43489641db28e4c5ded, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: healingSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5e0bba37b1a8b03459a77bad07a51360, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: teleportSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 58a998c4cf40f1b48b747800b56e6555, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: bigButtonsClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 86216026cfc851e45957b0b2412609d1, type: 3}
+    - target: {fileID: 1899537731522576590, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
+      propertyPath: littleButtonsClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9bd5498619f8b8f4ba7956dddd1b2c1a, type: 3}
     - target: {fileID: 5046937326949383195, guid: 78ed25b1848525c46b76f25a45661a30, type: 3}
       propertyPath: m_LocalPosition.x
       value: 221.3019

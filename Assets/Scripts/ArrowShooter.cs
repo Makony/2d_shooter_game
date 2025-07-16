@@ -20,6 +20,8 @@ public class ArrowShooter : MonoBehaviour
             animator.SetBool("IsShooting", true);
         }
 
+        SoundManager.Instance.ArrowShootSound();
+
         GameObject arrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
 
         Vector2 shootDirection = (targetPosition - (Vector2)transform.position).normalized;
@@ -30,8 +32,8 @@ public class ArrowShooter : MonoBehaviour
 
         StartCoroutine(ResetShootingAnimation());
     }
-    
-     private IEnumerator ResetShootingAnimation()
+
+    private IEnumerator ResetShootingAnimation()
     {
         yield return new WaitForSeconds(1f);
 

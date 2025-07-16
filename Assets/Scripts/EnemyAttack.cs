@@ -85,6 +85,7 @@ public class EnemyAttack : MonoBehaviour
             {
                 //only important for BulletPerShot > 1 => basically it will make a bullet every frame (look under ShootsBulletsOvertime)
                 StartCoroutine(ShootsBulletsOvertime(BulletPerShot));
+                SoundManager.Instance.EnemyShootSound();
             }
         }
     }

@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     private Vector2 movement;
     private Vector2 aimDirection;
     private Vector2 mousePosition;
+    float footstepTimer = 0f;
+    float footstepInterval = 0.3f;
 
     //Icon for Death
     public Sprite deathSprite; // assign a cross/grave sprite in the inspector
@@ -58,7 +60,20 @@ public class Player : MonoBehaviour
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
         movement = new Vector2(moveHorizontal, moveVertical).normalized;
-
+        bool isMoving = movement.magnitude > 0.1f;
+        if (isMoving)
+        {
+            footstepTimer -= Time.deltaTime;
+            if (footstepTimer <= 0f)
+            {
+                SoundManager.Instance.PlayFootstep();
+                footstepTimer = footstepInterval;
+            }
+        }
+        else
+        {
+            footstepTimer = 0f; // Reset when stopped
+        }
 
         //to tell animator if we are runnig or not
         if (moveHorizontal == 0 && moveVertical == 0)

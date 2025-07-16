@@ -46,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
             AccuracyErrorAngle /= isContinuesFire ? (float)0.5 : 2;
             levelManager.AmmoIcon(isContinuesFire);
         }
-        if (Input.GetKeyDown(KeyCode.R)) { Reload(); }
+        if (Input.GetKeyDown(KeyCode.R)) {Reload();} // Play button click sound when reloading}
 
         if (isContinuesFire && RemainingAmmo > 0 && !isReloading)
         {
@@ -60,7 +60,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && Time.time > lastBulletTime + 0.25f)
             {
-                
+
                 Shoot();
                 StartCoroutine(Hipfires());
             }
@@ -86,6 +86,7 @@ public class PlayerAttack : MonoBehaviour
         if (!isReloading)
         {
             StartCoroutine(Reloading());
+            SoundManager.Instance.ReloadSound();
         }
     }
 
@@ -108,6 +109,7 @@ public class PlayerAttack : MonoBehaviour
         {
             //only important for BulletPerShot > 1 => basically it will make a bullet every frame (look under ShootsBulletsOvertime)
             StartCoroutine(ShootsBulletsOvertime(BulletPerShot));
+            SoundManager.Instance.PlayerShootSound();
         }
     }
     //added this because spawning 1000 bullets at one frame was freezing Unity. This makes bullets look a bit better.

@@ -27,6 +27,8 @@ public class DestructibleBox : MonoBehaviour
     {
         if (destroyed) return;
 
+        SoundManager.Instance.BoxDestroySound();
+
         destroyed = true;
 
         if (didPlayerDestroy)

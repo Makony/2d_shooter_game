@@ -46,6 +46,7 @@ public class KeyLogic : MonoBehaviour
                 break;
         }
         LevelManager.Instance.KeysStat();
+        SoundManager.Instance.KeyCollectSound();
         Destroy(gameObject);
     }
 }

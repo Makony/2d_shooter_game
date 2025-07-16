@@ -87,6 +87,7 @@ public class LevelManager : MonoBehaviour
         if (!IsDoorOpen && Key1 && Key2 && Key3 && Key4)
         {
             OpenDoorForNextLevel();
+            SoundManager.Instance.KeyAllCollectedSound();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -124,6 +125,7 @@ public class LevelManager : MonoBehaviour
     {
         MapManager.Instance.GetTemplateInforomations();
         GridManager.Instance.CreateGridFromTilemaps(GlobalWallTilemap.Instance.GetComponent<Tilemap>(), GlobalFloorTilemap.Instance.GetComponent<Tilemap>());
+        SoundManager.Instance.backgroundMusicSource.clip = SoundManager.Instance.backgroundMusicClip;
 
         int numChildren = MapManager.Instance.transform.childCount;
         ObjectGenerator.Instance.GenerateObjects(numChildren * 3, numChildren * 3);
